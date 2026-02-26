@@ -1,0 +1,46 @@
+/*
+============================================================
+Problem: Lowest Common Ancestor of a Binary Search Tree
+Category: Trees (Binary Search Tree)
+Platform: LeetCode
+Language: C++
+Approach: Iterative BST Traversal
+Time Complexity: O(h)   // h = height of tree
+Space Complexity: O(1)
+============================================================
+
+Example:
+Input:  root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+Output: 6
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        while (root != NULL) {
+            // If both nodes are smaller → go left
+            if (p->val < root->val && q->val < root->val) {
+                root = root->left;
+            }
+            // If both nodes are greater → go right
+            else if (p->val > root->val && q->val > root->val) {
+                root = root->right;
+            }
+            // Split point → this is LCA
+            else {
+                return root;
+            }
+        }
+        return NULL;
+    }
+};
