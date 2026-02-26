@@ -1,0 +1,74 @@
+/*
+============================================================
+Problem: Serialize and Deserialize Binary Tree
+Category: Trees (Binary Tree)
+Platform: LeetCode
+Language: C++
+Approach: DFS Preorder Serialization
+Time Complexity: O(n)
+Space Complexity: O(n)
+============================================================
+
+Example:
+Input: root = [1,2,3,null,null,4,5]
+Output: [1,2,3,null,null,4,5]
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        if (!root) return "null,";
+        
+        return to_string(root->val) + "," +
+               serialize(root->left) +
+               serialize(root->right);
+    }
+
+    // Helper function for deserialization
+    TreeNode* buildTree(queue<string>& nodes) {
+        string val = nodes.front();
+        nodes.pop();
+        
+        if (val == "null") return NULL;
+        
+        TreeNode* node = new TreeNode(stoi(val));
+        node->left = buildTree(nodes);
+        node->right = buildTree(nodes);
+        
+        return node;
+    }
+
+    // Decodes encoded data to tree.
+    TreeNode* deserialize(string data) {
+        queue<string> nodes;
+        string temp;
+        
+        for (char c : data) {
+            if (c == ',') {
+                nodes.push(temp);
+                temp.clear();
+            } else {
+                temp += c;
+            }
+        }
+        
+        return buildTree(nodes);
+    }
+};
+
+/*
+File Name Suggestion:
+serialize-deserialize-binary-tree.cpp
+*/
