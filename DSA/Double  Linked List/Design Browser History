@@ -1,0 +1,79 @@
+/*
+============================================================
+Problem: Design Browser History
+Category: Doubly Linked List / Design
+Platform: LeetCode
+Language: C++
+Approach: Doubly Linked List Simulation
+Time Complexity:
+    visit   -> O(1)
+    back    -> O(steps)
+    forward -> O(steps)
+Space Complexity: O(N)
+============================================================
+
+Example:
+BrowserHistory bh("leetcode.com");
+bh.visit("google.com");
+bh.visit("facebook.com");
+bh.back(1);      // returns "google.com"
+bh.forward(1);   // returns "facebook.com"
+*/
+
+class BrowserHistory {
+private:
+    
+    struct Node {
+        string url;
+        Node* prev;
+        Node* next;
+        
+        Node(string s) {
+            url = s;
+            prev = next = NULL;
+        }
+    };
+    
+    Node* current;
+    
+public:
+    
+    BrowserHistory(string homepage) {
+        current = new Node(homepage);
+    }
+    
+    void visit(string url) {
+        Node* newNode = new Node(url);
+        
+        // Step 1: Clear forward history
+        current->next = NULL;
+        
+        // Step 2: Attach new page
+        newNode->prev = current;
+        current->next = newNode;
+        
+        // Step 3: Move current pointer
+        current = newNode;
+    }
+    
+    string back(int steps) {
+        while (steps > 0 && current->prev != NULL) {
+            current = current->prev;
+            steps--;
+        }
+        return current->url;
+    }
+    
+    string forward(int steps) {
+        while (steps > 0 && current->next != NULL) {
+            current = current->next;
+            steps--;
+        }
+        return current->url;
+    }
+};
+
+/*
+File Name Suggestion:
+design-browser-history.cpp
+*/
