@@ -1,0 +1,104 @@
+/*
+============================================================
+Problem: LRU Cache
+Category: Design (Doubly Linked List + Hash Map)
+Platform: LeetCode
+Language: C++
+Approach: HashMap + Doubly Linked List
+Time Complexity: O(1) for get and put
+Space Complexity: O(capacity)
+============================================================
+
+Example:
+Input:
+LRUCache cache(2);
+cache.put(1,1);
+cache.put(2,2);
+cache.get(1);    // returns 1
+cache.put(3,3);  // evicts key 2
+cache.get(2);    // returns -1
+*/
+
+#include <unordered_map>
+using namespace std;
+
+class LRUCache {
+private:
+    
+    struct Node {
+        int key, value;
+        Node* prev;
+        Node* next;
+        
+        Node(int k, int v) {
+            key = k;
+            value = v;
+            prev = next = NULL;
+        }
+    };
+    
+    int cap;
+    unordered_map<int, Node*> mp;
+    Node* head;
+    Node* tail;
+    
+    // Add node right after head (Most Recently Used)
+    void addNode(Node* node) {
+        node->next = head->next;
+        node->prev = head;
+        head->next->prev = node;
+        head->next = node;
+    }
+    
+    // Delete node from list
+    void deleteNode(Node* node) {
+        Node* prevNode = node->prev;
+        Node* nextNode = node->next;
+        prevNode->next = nextNode;
+        nextNode->prev = prevNode;
+    }
+
+public:
+    
+    LRUCache(int capacity) {
+        cap = capacity;
+        head = new Node(0, 0);   // dummy head
+        tail = new Node(0, 0);   // dummy tail
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    int get(int key) {
+        if (mp.find(key) == mp.end())
+            return -1;
+        
+        Node* node = mp[key];
+        deleteNode(node);
+        addNode(node);  // move to front (MRU)
+        
+        return node->value;
+    }
+    
+    void put(int key, int value) {
+        if (mp.find(key) != mp.end()) {
+            Node* existing = mp[key];
+            deleteNode(existing);
+            mp.erase(key);
+        }
+        
+        if (mp.size() == cap) {
+            Node* lru = tail->prev;  // Least Recently Used
+            deleteNode(lru);
+            mp.erase(lru->key);
+        }
+        
+        Node* newNode = new Node(key, value);
+        mp[key] = newNode;
+        addNode(newNode);
+    }
+};
+
+/*
+File Name Suggestion:
+lru-cache-doubly-linked-list.cpp
+*/
