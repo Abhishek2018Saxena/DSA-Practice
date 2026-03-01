@@ -1,0 +1,76 @@
+/*
+============================================================
+Problem: Minimum Pair Removal to Make Array Sorted
+Category: Array / Greedy Simulation
+Platform: LeetCode
+Language: C++
+
+Approach:
+    - While array is not sorted:
+        1. Find the leftmost adjacent pair with minimum sum
+        2. Merge the pair into one element
+        3. Count the operation
+    - Stop when array becomes non-decreasing
+
+Time Complexity:
+    Worst Case -> O(N^2)
+    (Each erase is O(N) and may repeat many times)
+
+Space Complexity:
+    O(1) extra space
+
+============================================================
+
+Example:
+Input: nums = [5,2,3,1]
+Output: operations needed to make array sorted
+============================================================
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int minimumPairRemoval(vector<int>& nums) {
+        int operations = 0;
+
+        // helper to check if array is sorted
+        auto isSorted = [&](const vector<int>& a) {
+            for (int i = 1; i < a.size(); i++) {
+                if (a[i] < a[i - 1]) return false;
+            }
+            return true;
+        };
+
+        // repeat until sorted
+        while (!isSorted(nums)) {
+            int n = nums.size();
+
+            // Step 1: find leftmost minimum adjacent pair
+            int idx = 0;
+            long long minSum = (long long)nums[0] + nums[1];
+
+            for (int i = 1; i < n - 1; i++) {
+                long long s = (long long)nums[i] + nums[i + 1];
+                if (s < minSum) {
+                    minSum = s;
+                    idx = i;
+                }
+            }
+
+            // Step 2: merge the pair
+            nums[idx] = nums[idx] + nums[idx + 1];
+            nums.erase(nums.begin() + idx + 1);
+
+            operations++;
+        }
+
+        return operations;
+    }
+};
+
+/*
+File Name Suggestion:
+minimum-pair-removal.cpp
+*/
