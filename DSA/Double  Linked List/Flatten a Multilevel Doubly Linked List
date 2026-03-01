@@ -1,0 +1,67 @@
+/*
+============================================================
+Problem: Flatten a Multilevel Doubly Linked List
+Category: Linked List (Doubly Linked List + Recursion)
+Platform: LeetCode
+Language: C++
+Approach: Recursive DFS Flattening
+Time Complexity: O(N)
+Space Complexity: O(N) recursion stack (worst case)
+============================================================
+
+Example:
+Input:
+1 - 2 - 3
+        |
+        7 - 8
+
+Output:
+1 - 2 - 3 - 7 - 8
+*/
+
+class Solution {
+public:
+    
+    Node* flatten(Node* head) {
+        if (!head) return head;
+        
+        Node* curr = head;
+        
+        while (curr) {
+            
+            // If child exists, flatten it
+            if (curr->child) {
+                
+                Node* nextNode = curr->next;
+                
+                // Step 1: Flatten child list
+                Node* childHead = flatten(curr->child);
+                
+                // Step 2: Attach child list after current
+                curr->next = childHead;
+                childHead->prev = curr;
+                curr->child = NULL;
+                
+                // Step 3: Find tail of flattened child
+                Node* temp = childHead;
+                while (temp->next)
+                    temp = temp->next;
+                
+                // Step 4: Reconnect saved next node
+                if (nextNode) {
+                    temp->next = nextNode;
+                    nextNode->prev = temp;
+                }
+            }
+            
+            curr = curr->next;
+        }
+        
+        return head;
+    }
+};
+
+/*
+File Name Suggestion:
+flatten-multilevel-doubly-linked-list.cpp
+*/
