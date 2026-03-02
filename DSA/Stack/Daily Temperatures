@@ -1,0 +1,62 @@
+/*
+============================================================
+Problem: Daily Temperatures
+Category: Stack / Monotonic Stack
+Platform: LeetCode
+Language: C++
+
+Approach:
+    - Use a monotonic decreasing stack storing indices
+    - Traverse temperatures
+    - When current temperature is higher than stack top:
+          → pop and compute days difference
+    - Remaining indices have no warmer future day → 0
+
+Time Complexity:
+    O(N)
+
+Space Complexity:
+    O(N)
+
+============================================================
+
+Example:
+Input:
+    temperatures = [73,74,75,71,69,72,76,73]
+
+Output:
+    [1,1,4,2,1,1,0,0]
+
+Explanation:
+    Each position tells how many days until a warmer temperature.
+============================================================
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        
+        int n = temperatures.size();
+        vector<int> ans(n, 0);
+        stack<int> st;   // store indices
+        
+        for (int i = 0; i < n; i++) {
+            
+            while (!st.empty() && 
+                   temperatures[i] > temperatures[st.top()]) {
+                
+                int index = st.top();
+                st.pop();
+                
+                ans[index] = i - index;
+            }
+            
+            st.push(i);
+        }
+        
+        return ans;
+    }
+};
