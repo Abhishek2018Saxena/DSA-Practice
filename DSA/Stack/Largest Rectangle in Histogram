@@ -1,0 +1,63 @@
+/*
+============================================================
+Problem: Largest Rectangle in Histogram
+Category: Stack / Monotonic Stack
+Platform: LeetCode
+Language: C++
+
+Approach:
+    - Use a monotonic increasing stack of indices
+    - When current height is smaller, compute area
+    - Width is determined by previous smaller element
+    - Push indices to maintain increasing order
+
+Time Complexity:
+    O(N) — each index pushed and popped once
+
+Space Complexity:
+    O(N) — stack usage
+
+============================================================
+
+Example:
+Input:  [2,1,5,6,2,3]
+Output: 10
+Explanation:
+    Rectangle formed by heights 5 and 6 gives max area.
+============================================================
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        stack<int> st;
+        int maxArea = 0;
+        int n = heights.size();
+        
+        for (int i = 0; i <= n; i++) {
+            
+            while (!st.empty() &&
+                   (i == n || heights[st.top()] > heights[i])) {
+                
+                int height = heights[st.top()];
+                st.pop();
+                
+                int width;
+                
+                if (st.empty())
+                    width = i;
+                else
+                    width = i - st.top() - 1;
+                
+                maxArea = max(maxArea, height * width);
+            }
+            
+            st.push(i);
+        }
+        
+        return maxArea;
+    }
+};
