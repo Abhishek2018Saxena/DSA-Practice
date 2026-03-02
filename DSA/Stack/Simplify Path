@@ -1,0 +1,71 @@
+/*
+============================================================
+Problem: Simplify Path
+Category: Stack / String
+Platform: LeetCode
+Language: C++
+
+Approach:
+    - Split path by '/'
+    - Use stack to simulate directory navigation
+        "."  -> ignore
+        ".." -> pop from stack if possible
+        name -> push into stack
+    - Finally rebuild the canonical path
+
+Time Complexity:
+    O(N) — single pass through string
+
+Space Complexity:
+    O(N) — stack storage
+
+============================================================
+
+Example:
+Input:  "/a/./b/../../c/"
+Output: "/c"
+============================================================
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    string simplifyPath(string path) {
+        stack<string> st;
+        string curr = "";
+        
+        for (int i = 0; i <= path.size(); i++) {
+            
+            if (i == path.size() || path[i] == '/') {
+                
+                if (curr == "" || curr == ".") {
+                    // ignore
+                }
+                else if (curr == "..") {
+                    if (!st.empty())
+                        st.pop();
+                }
+                else {
+                    st.push(curr);
+                }
+                
+                curr = "";
+            }
+            else {
+                curr += path[i];
+            }
+        }
+        
+        // Build result path
+        string result = "";
+        
+        while (!st.empty()) {
+            result = "/" + st.top() + result;
+            st.pop();
+        }
+        
+        return result.empty() ? "/" : result;
+    }
+};
