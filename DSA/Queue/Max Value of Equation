@@ -1,0 +1,78 @@
+/*
+============================================================
+Problem: Max Value of Equation
+Category: Queue / Deque / Sliding Window Optimization
+Platform: LeetCode
+Language: C++
+
+Approach:
+    Equation:
+        yi + yj + |xi - xj|
+    Since xi < xj:
+        → becomes (yi - xi) + (yj + xj)
+
+    Steps:
+    - Maintain deque storing pairs {xi, yi - xi}
+    - Remove points where distance > k
+    - Front of deque gives maximum (yi - xi)
+    - Maintain deque in decreasing order of (yi - xi)
+
+Time Complexity:
+    O(n)
+
+Space Complexity:
+    O(n)
+
+============================================================
+
+Example:
+Input:
+    points = [[1,3],[2,0],[5,10],[6,-10]]
+    k = 1
+
+Output:
+    4
+
+============================================================
+*/
+
+#include <vector>
+#include <deque>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int findMaxValueOfEquation(vector<vector<int>>& points, int k) {
+        deque<pair<int,int>> dq; 
+        // stores {xi, yi - xi}
+        
+        int result = INT_MIN;
+
+        for (auto &p : points) {
+            int x = p[0];
+            int y = p[1];
+
+            // 1️⃣ Remove points outside window
+            while (!dq.empty() && x - dq.front().first > k) {
+                dq.pop_front();
+            }
+
+            // 2️⃣ Update result using best candidate
+            if (!dq.empty()) {
+                result = max(result,
+                             dq.front().second + x + y);
+            }
+
+            // 3️⃣ Maintain decreasing order of (yi - xi)
+            int value = y - x;
+            while (!dq.empty() && dq.back().second <= value) {
+                dq.pop_back();
+            }
+
+            dq.push_back({x, value});
+        }
+
+        return result;
+    }
+};
