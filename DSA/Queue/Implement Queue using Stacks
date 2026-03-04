@@ -1,0 +1,82 @@
+/*
+============================================================
+Problem: Implement Queue using Stacks
+Category: Stack / Design
+Platform: LeetCode
+Language: C++
+
+Approach:
+    - Use two stacks:
+          → inStack  : for push operations
+          → outStack : for pop/peek operations
+    - For pop/peek:
+          → if outStack is empty, transfer all elements
+            from inStack → outStack
+    - This reverses order and gives FIFO behavior
+
+Time Complexity:
+    push()  -> O(1)
+    pop()   -> Amortized O(1)
+    peek()  -> Amortized O(1)
+    empty() -> O(1)
+
+Space Complexity:
+    O(n)
+
+============================================================
+
+Example:
+Operations:
+    push(1)
+    push(2)
+    peek() → 1
+    pop() → 1
+    empty() → false
+
+============================================================
+*/
+
+#include <stack>
+using namespace std;
+
+class MyQueue {
+private:
+    stack<int> inStack, outStack;
+
+public:
+    MyQueue() {
+        
+    }
+    
+    void push(int x) {
+        inStack.push(x);
+    }
+    
+    int pop() {
+        if (outStack.empty()) {
+            while (!inStack.empty()) {
+                outStack.push(inStack.top());
+                inStack.pop();
+            }
+        }
+        
+        int frontElement = outStack.top();
+        outStack.pop();
+        return frontElement;
+    }
+    
+    int peek() {
+        if (outStack.empty()) {
+            while (!inStack.empty()) {
+                outStack.push(inStack.top());
+                inStack.pop();
+            }
+        }
+        
+        return outStack.top();
+    }
+    
+    bool empty() {
+        return inStack.empty() && outStack.empty();
+    }
+};
