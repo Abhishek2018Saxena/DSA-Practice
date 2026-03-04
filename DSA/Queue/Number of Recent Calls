@@ -1,0 +1,55 @@
+/*
+============================================================
+Problem: Number of Recent Calls
+Category: Queue / Sliding Window
+Platform: LeetCode
+Language: C++
+
+Approach:
+    - Use a queue to store ping timestamps.
+    - For every ping(t):
+          → push current time into queue
+          → remove all times < (t - 3000)
+    - Remaining queue size = number of recent calls
+
+Time Complexity:
+    ping() -> Amortized O(1)
+
+Space Complexity:
+    O(n)
+
+============================================================
+
+Example:
+Operations:
+    ping(1)    → 1
+    ping(100)  → 2
+    ping(3001) → 3
+    ping(3002) → 3
+
+============================================================
+*/
+
+#include <queue>
+using namespace std;
+
+class RecentCounter {
+private:
+    queue<int> q;
+
+public:
+    RecentCounter() {
+        
+    }
+    
+    int ping(int t) {
+        q.push(t);
+        
+        // Remove outdated requests
+        while (!q.empty() && q.front() < t - 3000) {
+            q.pop();
+        }
+        
+        return q.size();
+    }
+};
