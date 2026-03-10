@@ -1,0 +1,85 @@
+/*
+============================================================
+Problem: 3Sum
+Category: Two Pointers / Array
+Platform: LeetCode
+Language: C++
+
+Approach:
+    - Sort the array first.
+    - Fix one element nums[i].
+    - Use two pointers:
+          left = i + 1
+          right = n - 1
+    - Move pointers based on sum:
+          sum == 0 → store triplet
+          sum < 0  → move left++
+          sum > 0  → move right--
+    - Skip duplicates to avoid repeating triplets.
+
+Time Complexity:
+    O(n^2)
+
+Space Complexity:
+    O(1) extra (excluding result)
+
+============================================================
+
+Example:
+Input:
+    nums = [-1,0,1,2,-1,-4]
+
+Output:
+    [[-1,-1,2],[-1,0,1]]
+
+============================================================
+*/
+
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        
+        vector<vector<int>> result;
+        sort(nums.begin(), nums.end());
+
+        for (int i = 0; i < nums.size(); i++)
+        {
+            // Skip duplicate elements
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
+
+            int left = i + 1;
+            int right = nums.size() - 1;
+
+            while (left < right)
+            {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0)
+                {
+                    result.push_back({nums[i], nums[left], nums[right]});
+
+                    // Skip duplicates
+                    while (left < right && nums[left] == nums[left + 1])
+                        left++;
+
+                    while (left < right && nums[right] == nums[right - 1])
+                        right--;
+
+                    left++;
+                    right--;
+                }
+                else if (sum < 0)
+                    left++;
+                else
+                    right--;
+            }
+        }
+
+        return result;
+    }
+};
