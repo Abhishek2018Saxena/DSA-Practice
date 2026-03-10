@@ -1,0 +1,81 @@
+/*
+============================================================
+Problem: Trapping Rain Water
+Category: Two Pointers / Array
+Platform: LeetCode
+Language: C++
+
+Approach:
+    - Use two pointers:
+          left  → start of array
+          right → end of array
+    - Maintain:
+          leftMax  → maximum height from left
+          rightMax → maximum height from right
+    - Move the pointer with smaller height.
+    - Water trapped at index:
+          leftMax - height[left]
+          or
+          rightMax - height[right]
+
+Time Complexity:
+    O(n)
+
+Space Complexity:
+    O(1)
+
+============================================================
+
+Example:
+Input:
+    height = [0,1,0,2,1,0,1,3,2,1,2,1]
+
+Output:
+    6
+
+Explanation:
+    Total trapped rain water = 6 units.
+
+============================================================
+*/
+
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        
+        int left = 0;
+        int right = height.size() - 1;
+        
+        int leftMax = 0;
+        int rightMax = 0;
+        
+        int water = 0;
+        
+        while (left < right)
+        {
+            if (height[left] < height[right])
+            {
+                if (height[left] >= leftMax)
+                    leftMax = height[left];
+                else
+                    water += leftMax - height[left];
+                
+                left++;
+            }
+            else
+            {
+                if (height[right] >= rightMax)
+                    rightMax = height[right];
+                else
+                    water += rightMax - height[right];
+                
+                right--;
+            }
+        }
+        
+        return water;
+    }
+};
