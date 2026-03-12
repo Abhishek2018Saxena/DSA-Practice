@@ -1,0 +1,116 @@
+/*
+============================================================
+Problem: Count of Range Sum
+Category: Binary Indexed Tree (Fenwick Tree) / Prefix Sum
+Platform: LeetCode
+Language: C++
+
+Approach:
+    - Use prefix sums:
+          prefix[i] = sum of first i elements
+
+    - We want:
+          lower ≤ prefix[j] - prefix[i] ≤ upper
+
+    - Rearranging:
+          prefix[j] - upper ≤ prefix[i] ≤ prefix[j] - lower
+
+    Steps:
+    1. Compute prefix sums.
+    2. Use coordinate compression for values:
+          prefix[i], prefix[i]-lower, prefix[i]-upper
+    3. Use Fenwick Tree (BIT) to store frequencies.
+    4. For each prefix sum:
+          count valid previous prefix sums using BIT.
+    5. Update BIT with current prefix sum.
+
+Time Complexity:
+    O(n log n)
+
+Space Complexity:
+    O(n)
+
+============================================================
+
+Example:
+Input:
+    nums = [-2,5,-1]
+    lower = -2
+    upper = 2
+
+Output:
+    3
+
+Explanation:
+    Valid subarrays:
+    [-2], [-2,5,-1], [-1]
+
+============================================================
+*/
+
+#include <vector>
+#include <set>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> bit;
+    int n;
+
+    // Update Fenwick Tree
+    void update(int i){
+        while (i <= n) {
+            bit[i] += 1;
+            i += i & (-i);
+        }
+    }
+
+    // Query prefix frequency
+    int query(int i){
+        int s = 0;
+        while (i > 0) {
+            s += bit[i];
+            i -= i & (-i);
+        }
+        return s;
+    }
+
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+        int size = nums.size();
+        vector<long long> prefix(size + 1, 0);
+
+        // Build prefix sum
+        for (int i = 0; i < size; i++)
+            prefix[i + 1] = prefix[i] + nums[i];
+
+        // Coordinate compression
+        set<long long> all;
+        for (long long x : prefix){
+            all.insert(x);
+            all.insert(x - lower);
+            all.insert(x - upper);
+        }
+
+        unordered_map<long long,int> compress;
+        int idx = 1;
+        for (long long x : all)
+            compress[x] = idx++;
+
+        n = idx;
+        bit.assign(n + 1, 0);
+
+        int ans = 0;
+
+        for (long long x : prefix){
+            int left = compress[x - upper];
+            int right = compress[x - lower];
+
+            ans += query(right) - query(left - 1);
+
+            update(compress[x]);
+        }
+
+        return ans;
+    }
+};
