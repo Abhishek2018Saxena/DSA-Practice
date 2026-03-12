@@ -1,0 +1,94 @@
+/*
+============================================================
+Problem: Reverse Pairs
+Category: Binary Indexed Tree (Fenwick Tree) / Coordinate Compression
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+Given an integer array nums, return the number of reverse pairs.
+
+A reverse pair is defined as a pair (i, j) such that:
+    i < j  AND  nums[i] > 2 * nums[j].
+
+Example:
+Input:  nums = [1,3,2,3,1]
+Output: 2
+
+Explanation:
+The reverse pairs are:
+(3,1) and (3,1)
+
+Approach:
+1. Traverse the array from right to left.
+2. Use a Binary Indexed Tree (Fenwick Tree) to keep track of processed elements.
+3. Coordinate compression is used because numbers may be large.
+4. For each element nums[i], count how many numbers already processed satisfy:
+        nums[i] > 2 * nums[j]
+5. Update the BIT with the value 2 * nums[i].
+
+Time Complexity:
+    O(n log n)
+
+Space Complexity:
+    O(n)
+
+============================================================
+*/
+
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> bit;
+    int n;
+
+    void update(int i){
+        while(i <= n){
+            bit[i] += 1;
+            i += i & (-i);
+        }
+    }
+
+    int query(int i){
+        int s = 0;
+        while(i > 0){
+            s += bit[i];
+            i -= i & (-i);
+        }
+        return s;
+    }
+
+    int reversePairs(vector<int>& nums) {
+
+        vector<long long> all;
+
+        for(long long x : nums){
+            all.push_back(x);
+            all.push_back(2LL * x);
+        }
+
+        sort(all.begin(), all.end());
+        all.erase(unique(all.begin(), all.end()), all.end());
+
+        unordered_map<long long,int> compress;
+
+        for(int i = 0; i < all.size(); i++)
+            compress[all[i]] = i + 1;
+
+        n = all.size();
+        bit.assign(n + 1, 0);
+
+        int ans = 0;
+
+        for(int i = nums.size() - 1; i >= 0; i--){
+            ans += query(compress[nums[i]] - 1);
+            update(compress[2LL * nums[i]]);
+        }
+
+        return ans;
+    }
+};
