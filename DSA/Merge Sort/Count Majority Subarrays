@@ -1,0 +1,106 @@
+/*
+============================================================
+Problem: Count Majority Subarrays
+Category: Merge Sort / Prefix Sum / Divide and Conquer
+Platform: LeetCode / Interview Pattern
+Language: C++
+
+Problem Statement:
+Given an integer array nums and an integer target,
+return the number of subarrays where target appears
+more times than all other elements combined.
+
+Idea:
+Convert the array into:
+    +1 → if nums[i] == target
+    -1 → otherwise
+
+Now the problem becomes:
+Count number of subarrays having positive sum.
+
+Using prefix sum:
+For subarray (i, j):
+    prefix[j] - prefix[i] > 0
+⇒ prefix[i] < prefix[j]
+
+So we need to count number of increasing prefix pairs.
+This can be done using Merge Sort based counting.
+
+Approach:
+1. Build prefix sum array using +1 and -1.
+2. Use modified merge sort to count pairs:
+       prefix[i] < prefix[j]  where i < j
+3. While merging:
+       Count how many right elements are greater.
+
+Time Complexity:
+    O(n log n)
+
+Space Complexity:
+    O(n)
+
+============================================================
+*/
+
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    
+    long long mergeCount(vector<long long>& arr, int left, int mid, int right){
+        long long count = 0;
+        int j = mid + 1;
+
+        // Count valid pairs
+        for(int i = left; i <= mid; i++){
+            while(j <= right && arr[j] <= arr[i]) j++;
+            count += right - j + 1;
+        }
+
+        vector<long long> temp;
+        int i = left;
+        j = mid + 1;
+
+        // Merge step
+        while(i <= mid && j <= right){
+            if(arr[i] <= arr[j]) temp.push_back(arr[i++]);
+            else temp.push_back(arr[j++]);
+        }
+
+        while(i <= mid) temp.push_back(arr[i++]);
+        while(j <= right) temp.push_back(arr[j++]);
+
+        for(int k = left; k <= right; k++)
+            arr[k] = temp[k-left];
+
+        return count;
+    }
+
+    long long mergeSort(vector<long long>& arr, int left, int right){
+        if(left >= right) return 0;
+
+        int mid = (left + right) / 2;
+        long long count = 0;
+
+        count += mergeSort(arr, left, mid);
+        count += mergeSort(arr, mid+1, right);
+        count += mergeCount(arr, left, mid, right);
+
+        return count;
+    }
+
+    int countMajoritySubarrays(vector<int>& nums, int target) {
+
+        int n = nums.size();
+        vector<long long> prefix(n+1,0);
+
+        // Build transformed prefix sum
+        for(int i = 0; i < n; i++){
+            int val = (nums[i] == target) ? 1 : -1;
+            prefix[i+1] = prefix[i] + val;
+        }
+
+        return mergeSort(prefix, 0, n);
+    }
+};
