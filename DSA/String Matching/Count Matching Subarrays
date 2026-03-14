@@ -1,0 +1,82 @@
+/*
+============================================================
+Problem: Count Matching Subarrays
+Category: Array / Pattern Matching / Sliding Window (Brute Pattern Check)
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+Given an integer array nums and an integer array pattern,
+count the number of subarrays in nums whose relative
+comparison pattern matches the given pattern.
+
+Comparison Rule:
+For every adjacent pair:
+    nums[i+1] > nums[i]  → 1
+    nums[i+1] == nums[i] → 0
+    nums[i+1] < nums[i]  → -1
+
+We must count how many subarrays have this comparison
+sequence exactly equal to pattern.
+
+Example:
+nums = [1,2,3,2,1]
+pattern = [1,1,-1,-1]
+
+Output:
+1
+
+Approach:
+1. Build a difference array (diff):
+       size = n - 1
+       store comparison result for each adjacent pair.
+2. Slide a window of size = pattern length over diff.
+3. Compare each window with pattern.
+4. Count matches.
+
+Time Complexity:
+    O(n * m)
+
+Space Complexity:
+    O(n)
+
+============================================================
+*/
+
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int countMatchingSubarrays(vector<int>& nums, vector<int>& pattern) {
+        int n = nums.size();
+        int m = pattern.size();
+        
+        vector<int> diff;
+        
+        // Step 1: Build comparison array
+        for (int i = 0; i < n - 1; i++) {
+            if (nums[i + 1] > nums[i]) diff.push_back(1);
+            else if (nums[i + 1] == nums[i]) diff.push_back(0);
+            else diff.push_back(-1);
+        }
+        
+        int count = 0;
+        
+        // Step 2: Pattern matching using sliding window
+        for (int i = 0; i + m <= diff.size(); i++) {
+            bool match = true;
+            
+            for (int j = 0; j < m; j++) {
+                if (diff[i + j] != pattern[j]) {
+                    match = false;
+                    break;
+                }
+            }
+            
+            if (match) count++;
+        }
+        
+        return count;
+    }
+};
