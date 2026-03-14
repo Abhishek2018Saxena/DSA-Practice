@@ -1,0 +1,75 @@
+/*
+============================================================
+Problem: Check If String Matches Pattern with '*'
+Category: String / Pattern Matching / Brute Force
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+Given a string s and a pattern p containing exactly one '*',
+check whether there exists a substring of s that matches p.
+
+Meaning of '*':
+'*' can match any sequence of characters (including empty).
+
+Example:
+s = "leetcode"
+p = "le*de"
+
+Output:
+true
+
+Explanation:
+'*' can match "etco" → "le" + "etco" + "de" = "leetcode"
+
+Approach:
+1. Split pattern into two parts:
+       A → prefix before '*'
+       B → suffix after '*'
+2. Try all positions where A matches in s.
+3. After matching A, check if B appears later.
+4. If both appear in correct order → return true.
+
+Time Complexity:
+    O(n²)   (substring comparison)
+
+Space Complexity:
+    O(1)
+
+Optimization Note:
+Can be improved using:
+    ⭐ KMP
+    ⭐ Z Algorithm
+    ⭐ Two pointer greedy
+
+============================================================
+*/
+
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    bool hasMatch(string s, string p) {
+        int pos = p.find('*');
+        
+        string A = p.substr(0, pos);
+        string B = p.substr(pos + 1);
+
+        int n = s.size();
+
+        // Try all positions for prefix match
+        for (int i = 0; i + A.size() <= n; i++) {
+            if (s.substr(i, A.size()) == A) {
+
+                // Try all positions for suffix match after prefix
+                for (int j = i + A.size(); j + B.size() <= n; j++) {
+                    if (s.substr(j, B.size()) == B)
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+};
