@@ -1,0 +1,77 @@
+/*
+============================================================
+Problem: Camelcase Matching
+Category: String / Two Pointer / Pattern Matching
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+Given an array of strings queries and a string pattern,
+return a boolean array answer where answer[i] is true
+if queries[i] matches the pattern, otherwise false.
+
+A query matches the pattern if:
+- We can insert lowercase letters into pattern to make it equal to query.
+- Uppercase letters must match exactly in order.
+
+Example:
+Input:
+queries = ["FooBar","FooBarTest","FootBall","FrameBuffer","ForceFeedBack"]
+pattern = "FB"
+
+Output:
+[true,false,true,true,false]
+
+Approach:
+1. Use Two Pointer Technique.
+2. Traverse query and pattern together.
+3. If characters match → move both pointers.
+4. If query has extra lowercase → skip.
+5. If query has extra uppercase → return false.
+6. At end → pattern must be fully matched.
+
+Time Complexity:
+    O(total length of all queries)
+
+Space Complexity:
+    O(1)
+
+============================================================
+*/
+
+#include <vector>
+#include <string>
+#include <cctype>
+using namespace std;
+
+class Solution {
+public:
+    bool match(string query, string pattern) {
+        int i = 0, j = 0;
+
+        while (i < query.size()) {
+            if (j < pattern.size() && query[i] == pattern[j]) {
+                i++;
+                j++;
+            }
+            else if (islower(query[i])) {
+                i++;
+            }
+            else {
+                return false;
+            }
+        }
+
+        return j == pattern.size();
+    }
+
+    vector<bool> camelMatch(vector<string>& queries, string pattern) {
+        vector<bool> ans;
+
+        for (string &q : queries) {
+            ans.push_back(match(q, pattern));
+        }
+
+        return ans;
+    }
+};
