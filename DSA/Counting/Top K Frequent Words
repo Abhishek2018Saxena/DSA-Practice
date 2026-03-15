@@ -1,0 +1,82 @@
+/*
+============================================================
+Problem: Top K Frequent Words
+Category: Hashing / Sorting / Heap (Alternative)
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+Given an array of strings words and an integer k,
+return the k most frequent strings.
+
+Rules:
+1. Higher frequency word comes first.
+2. If frequency is same → return lexicographically smaller word first.
+
+Example:
+Input:
+words = ["i","love","leetcode","i","love","coding"]
+k = 2
+
+Output:
+["i","love"]
+
+Approach (Hashing + Sorting):
+1. Use HashMap to count frequency of each word.
+2. Store (word, frequency) pairs in a vector.
+3. Sort vector:
+      - Higher frequency first
+      - If tie → lexicographically smaller first
+4. Return first k words.
+
+Time Complexity:
+    O(n log n)
+
+Space Complexity:
+    O(n)
+
+Optimization:
+Better approach → Min Heap (Priority Queue)
+Time → O(n log k)
+
+============================================================
+*/
+
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+
+        unordered_map<string,int> freq;
+
+        // Count frequency
+        for(string w : words)
+            freq[w]++;
+
+        vector<pair<string,int>> v;
+
+        for(auto &it : freq)
+            v.push_back(it);
+
+        // Custom sorting
+        sort(v.begin(), v.end(), [](auto &a, auto &b){
+
+            if(a.second == b.second)
+                return a.first < b.first;   // lexicographical order
+
+            return a.second > b.second;    // higher frequency first
+        });
+
+        vector<string> ans;
+
+        for(int i = 0; i < k; i++)
+            ans.push_back(v[i].first);
+
+        return ans;
+    }
+};
