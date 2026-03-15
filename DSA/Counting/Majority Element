@@ -1,0 +1,59 @@
+/*
+============================================================
+Problem: Majority Element
+Category: Array / Counting / Hashing
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+Given an integer array nums of size n,
+return the element that appears more than ⌊n/2⌋ times.
+
+It is guaranteed that majority element exists.
+
+Example:
+Input:
+nums = [3,3,4]
+
+Output:
+3
+
+Approach (Counting Method):
+1. Count frequency of each element.
+2. If any frequency becomes greater than n/2 → return it.
+
+This approach is simple and intuitive.
+
+Time Complexity:
+    O(n)
+
+Space Complexity:
+    O(n)
+
+Note:
+Better Optimal Solution → Boyer Moore Voting (O(1) space)
+
+============================================================
+*/
+
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        
+        unordered_map<int,int> freq;
+        int n = nums.size();
+
+        for(int num : nums) {
+            freq[num]++;
+
+            if(freq[num] > n/2)
+                return num;
+        }
+
+        return -1; // never reached as majority always exists
+    }
+};
