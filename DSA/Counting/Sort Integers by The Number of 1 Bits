@@ -1,0 +1,74 @@
+/*
+============================================================
+Problem: Sort Integers by The Number of 1 Bits
+Category: Bit Manipulation / Sorting / Custom Comparator
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+Given an integer array arr,
+sort the integers in ascending order by the number of 1's
+in their binary representation.
+
+Rules:
+1. If two numbers have same number of set bits → smaller number comes first.
+
+Example:
+Input:
+arr = [0,1,2,3,4,5,6,7,8]
+
+Output:
+[0,1,2,4,8,3,5,6,7]
+
+Explanation:
+Binary:
+0 → 0
+1 → 1
+2 → 10
+4 → 100
+8 → 1000
+3 → 11
+5 → 101
+6 → 110
+7 → 111
+
+Approach:
+1. Use built-in function to count set bits.
+2. Sort array using custom comparator:
+      - First compare bit count
+      - If tie → compare numeric value
+
+Time Complexity:
+    O(n log n)
+
+Space Complexity:
+    O(1)
+
+Important Concept:
+⭐ __builtin_popcount(x) → counts number of set bits in integer
+
+============================================================
+*/
+
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> sortByBits(vector<int>& arr) {
+
+        sort(arr.begin(), arr.end(), [](int a, int b) {
+
+            int countA = __builtin_popcount(a);
+            int countB = __builtin_popcount(b);
+
+            if(countA == countB)
+                return a < b;
+
+            return countA < countB;
+        });
+
+        return arr;
+    }
+};
