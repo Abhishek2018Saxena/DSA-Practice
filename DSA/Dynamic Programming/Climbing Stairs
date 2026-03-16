@@ -1,0 +1,78 @@
+/*
+============================================================
+Problem: Climbing Stairs
+Category: Dynamic Programming / Fibonacci Pattern
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+You are climbing a staircase.
+It takes n steps to reach the top.
+
+Each time you can either climb:
+    - 1 step
+    - 2 steps
+
+In how many distinct ways can you reach the top?
+
+Example:
+Input:
+n = 3
+
+Output:
+3
+
+Explanation:
+Ways:
+1 + 1 + 1
+1 + 2
+2 + 1
+
+Optimal Idea:
+This is a Fibonacci Pattern.
+
+Ways(n) = Ways(n-1) + Ways(n-2)
+
+Because:
+To reach step n:
+- You can come from step n-1 (take 1 step)
+- You can come from step n-2 (take 2 steps)
+
+Approach:
+1. Use iterative DP.
+2. Store only last two values → Space Optimization.
+
+Time Complexity:
+    O(n)
+
+Space Complexity:
+    O(1)
+
+Why Important?
+⭐ Basic Dynamic Programming foundation  
+⭐ Appears in many DP problems  
+⭐ Leads to House Robber / Decode Ways / etc
+
+============================================================
+*/
+
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int climbStairs(int n) {
+        if(n <= 2) return n;
+
+        int prev1 = 2;
+        int prev2 = 1;
+
+        for(int i = 3; i <= n; i++){
+            int curr = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return prev1;
+    }
+};
