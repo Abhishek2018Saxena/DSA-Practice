@@ -1,0 +1,76 @@
+/*
+============================================================
+Problem: Partition Equal Subset Sum
+Category: Dynamic Programming / 0-1 Knapsack / Subset Sum
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+Given an integer array nums,
+check whether you can partition the array into two subsets
+such that the sum of elements in both subsets is equal.
+
+Example:
+Input:
+nums = [1,5,11,5]
+
+Output:
+true
+
+Explanation:
+Subset1 = [1,5,5] → sum = 11
+Subset2 = [11]    → sum = 11
+
+Key Idea:
+If total sum is even,
+we just need to check whether a subset exists with sum = totalSum / 2.
+
+Approach:
+1. Compute total sum.
+2. If sum is odd → return false.
+3. Use 1D DP boolean array:
+       dp[j] = true → subset with sum j exists.
+4. Iterate each number:
+       Update dp from right to left (0-1 Knapsack rule).
+
+Time Complexity:
+    O(n * target)
+
+Space Complexity:
+    O(target)
+
+Why Important?
+⭐ Classic Subset Sum Problem  
+⭐ Foundation for many Knapsack DP questions  
+⭐ Very common in interviews  
+
+============================================================
+*/
+
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum = 0;
+        for(int num : nums)
+            sum += num;
+
+        if(sum % 2 != 0)
+            return false;
+
+        int target = sum / 2;
+
+        vector<bool> dp(target + 1, false);
+        dp[0] = true;
+
+        for(int num : nums){
+            for(int j = target; j >= num; j--){
+                dp[j] = dp[j] || dp[j - num];
+            }
+        }
+
+        return dp[target];
+    }
+};
