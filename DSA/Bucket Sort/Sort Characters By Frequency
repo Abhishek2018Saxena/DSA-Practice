@@ -1,0 +1,87 @@
+/*
+============================================================
+Problem: Sort Characters By Frequency
+Category: Hashing / Bucket Sort / String Processing
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+Given a string s,
+sort it in decreasing order based on the frequency of characters.
+
+Return the sorted string.
+
+Example:
+Input:
+s = "tree"
+
+Output:
+"eert"   OR   "eetr"
+
+Explanation:
+'e' appears 2 times → comes first
+'t' and 'r' appear 1 time
+
+Optimal Idea:
+Use Bucket Sort because:
+Maximum frequency of any character ≤ length of string.
+
+Approach:
+1. Count frequency using HashMap.
+2. Create buckets:
+       bucket[i] → stores characters having frequency = i
+3. Traverse buckets from highest frequency to lowest.
+4. Append each character frequency times.
+
+Time Complexity:
+    O(n)
+
+Space Complexity:
+    O(n)
+
+Why Important?
+⭐ Popular frequency pattern problem  
+⭐ Helps understand bucket grouping  
+⭐ Similar to Top K Frequent family  
+
+============================================================
+*/
+
+#include <vector>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char, int> freq;
+        
+        // Step 1: Count frequency
+        for (char c : s) {
+            freq[c]++;
+        }
+
+        int n = s.size();
+        
+        // Step 2: Buckets (index = frequency)
+        vector<vector<char>> buckets(n + 1);
+        
+        for (auto &p : freq) {
+            char ch = p.first;
+            int f = p.second;
+            buckets[f].push_back(ch);
+        }
+
+        // Step 3: Build result
+        string result;
+        
+        for (int i = n; i >= 1; i--) {
+            for (char ch : buckets[i]) {
+                result.append(i, ch);
+            }
+        }
+
+        return result;
+    }
+};
