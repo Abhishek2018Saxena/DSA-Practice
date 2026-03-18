@@ -1,0 +1,100 @@
+/*
+============================================================
+Problem: Minimum Cost to Make at Least One Valid Path in a Grid
+Category: Graph / Shortest Path / 0-1 BFS
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+You are given an m × n grid.
+
+Each cell contains a direction:
+1 → Right
+2 → Left
+3 → Down
+4 → Up
+
+You can change the direction of any cell
+with cost = 1.
+
+Return the minimum cost required to make
+at least one valid path from:
+(0,0) → (m-1,n-1)
+
+Core Idea:
+Treat each cell as a node in a graph.
+
+Moving in the indicated direction → cost = 0  
+Moving in any other direction → cost = 1  
+
+Since edge weights are only {0,1},
+we use **0-1 BFS** instead of Dijkstra.
+
+Approach:
+1. Use deque instead of priority queue.
+2. Maintain distance matrix.
+3. If cost = 0 → push_front  
+   If cost = 1 → push_back
+4. Continue until destination reached.
+
+Time Complexity:
+    O(m × n)
+
+Space Complexity:
+    O(m × n)
+
+Why Important?
+⭐ Special shortest path optimization  
+⭐ Very common grid graph interview pattern  
+⭐ Faster than Dijkstra when weights are binary  
+
+============================================================
+*/
+
+#include <vector>
+#include <deque>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int minCost(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+
+        vector<pair<int,int>> dirs = {
+            {0,1}, {0,-1}, {1,0}, {-1,0}
+        };
+
+        deque<pair<int,int>> dq;
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+
+        dq.push_front({0,0});
+        dist[0][0] = 0;
+
+        while (!dq.empty()) {
+            auto [x, y] = dq.front();
+            dq.pop_front();
+
+            for (int d = 0; d < 4; d++) {
+                int nx = x + dirs[d].first;
+                int ny = y + dirs[d].second;
+
+                if (nx < 0 || ny < 0 || nx >= m || ny >= n)
+                    continue;
+
+                int cost = (grid[x][y] == d + 1) ? 0 : 1;
+
+                if (dist[x][y] + cost < dist[nx][ny]) {
+                    dist[nx][ny] = dist[x][y] + cost;
+
+                    if (cost == 0)
+                        dq.push_front({nx, ny});
+                    else
+                        dq.push_back({nx, ny});
+                }
+            }
+        }
+
+        return dist[m-1][n-1];
+    }
+};
