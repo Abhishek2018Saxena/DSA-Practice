@@ -1,0 +1,112 @@
+/*
+============================================================
+Problem: Minimum Cost to Convert String I
+Category: Graph / Shortest Path / Floyd-Warshall
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+You are given:
+- source string
+- target string
+- arrays original[], changed[], cost[]
+
+You can convert character:
+original[i] → changed[i] with cost = cost[i].
+
+Return the minimum total cost required
+to convert source into target.
+
+If conversion is impossible → return -1.
+
+Example:
+source = "abcd"
+target = "bcda"
+
+Core Idea:
+Each character (a-z) is treated as a node in graph.
+
+Conversion rule:
+a → b with cost c
+means directed weighted edge.
+
+We must find:
+minimum cost to convert ANY character
+to ANY other character.
+
+Since nodes = 26 → use Floyd-Warshall.
+
+Approach:
+1. Create 26 × 26 distance matrix.
+2. Initialize:
+      dist[i][i] = 0
+3. Insert given conversion edges.
+4. Run Floyd-Warshall:
+      try all intermediate characters.
+5. Sum cost for each index in string.
+
+Time Complexity:
+    O(26³ + n)
+
+Space Complexity:
+    O(26²)
+
+Why Important?
+⭐ Classic All-Pairs Shortest Path  
+⭐ Graph modeling on characters  
+⭐ Important interview string-graph pattern  
+
+============================================================
+*/
+
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    long long minimumCost(string source, string target,
+                          vector<char>& original,
+                          vector<char>& changed,
+                          vector<int>& cost) {
+
+        const long long INF = 1e15;
+
+        vector<vector<long long>> dist(
+            26, vector<long long>(26, INF));
+
+        for (int i = 0; i < 26; i++)
+            dist[i][i] = 0;
+
+        for (int i = 0; i < original.size(); i++) {
+            int u = original[i] - 'a';
+            int v = changed[i] - 'a';
+            dist[u][v] =
+                min(dist[u][v], (long long)cost[i]);
+        }
+
+        // Floyd-Warshall
+        for (int k = 0; k < 26; k++)
+            for (int i = 0; i < 26; i++)
+                for (int j = 0; j < 26; j++)
+                    if (dist[i][k] < INF &&
+                        dist[k][j] < INF)
+                        dist[i][j] =
+                            min(dist[i][j],
+                                dist[i][k] + dist[k][j]);
+
+        long long ans = 0;
+
+        for (int i = 0; i < source.size(); i++) {
+            int s = source[i] - 'a';
+            int t = target[i] - 'a';
+
+            if (dist[s][t] == INF)
+                return -1;
+
+            ans += dist[s][t];
+        }
+
+        return ans;
+    }
+};
