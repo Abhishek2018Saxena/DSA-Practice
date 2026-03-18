@@ -1,0 +1,114 @@
+/*
+============================================================
+Problem: Number of Ways to Arrive at Destination
+Category: Graph / Shortest Path / Dijkstra / Path Counting
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+You are given n cities and roads where:
+
+roads[i] = [u, v, time]
+
+Each road is bidirectional.
+
+Return the number of different ways to reach
+from city 0 → city n-1
+using the minimum possible time.
+
+Return answer modulo 1e9+7.
+
+Example:
+n = 7
+roads = [[0,6,7],[0,1,2],[1,2,3],[1,3,3],
+         [6,3,3],[3,5,1],[6,5,1],
+         [2,5,1],[0,4,5],[4,6,2]]
+
+Output:
+4
+
+Core Idea:
+This is **Shortest Path with counting number of paths.**
+
+We use Dijkstra because graph has weighted edges.
+
+Logic:
+1. dist[i] → shortest time to reach node i
+2. ways[i] → number of shortest paths to node i
+
+If we find shorter path:
+      update dist
+      copy ways
+
+If we find same shortest path:
+      add ways
+
+Time Complexity:
+    O(E log V)
+
+Space Complexity:
+    O(V + E)
+
+Why Important?
+⭐ Very important interview pattern  
+⭐ Combines graph + dynamic counting  
+⭐ Variation appears in many problems  
+
+============================================================
+*/
+
+#include <vector>
+#include <queue>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+
+        const long long MOD = 1e9 + 7;
+
+        vector<vector<pair<int,int>>> graph(n);
+        for(auto &r : roads){
+            int u = r[0], v = r[1], t = r[2];
+            graph[u].push_back({v,t});
+            graph[v].push_back({u,t});
+        }
+
+        vector<long long> dist(n, LLONG_MAX);
+        vector<long long> ways(n,0);
+
+        priority_queue<
+            pair<long long,int>,
+            vector<pair<long long,int>>,
+            greater<>
+        > pq;
+
+        dist[0] = 0;
+        ways[0] = 1;
+        pq.push({0,0});
+
+        while(!pq.empty()){
+            auto [time,node] = pq.top();
+            pq.pop();
+
+            if(time > dist[node]) continue;
+
+            for(auto &[next,wt] : graph[node]){
+                long long newDist = time + wt;
+
+                if(newDist < dist[next]){
+                    dist[next] = newDist;
+                    ways[next] = ways[node];
+                    pq.push({newDist,next});
+                }
+                else if(newDist == dist[next]){
+                    ways[next] =
+                        (ways[next] + ways[node]) % MOD;
+                }
+            }
+        }
+
+        return ways[n-1] % MOD;
+    }
+};
