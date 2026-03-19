@@ -1,0 +1,99 @@
+/*
+============================================================
+Problem: Course Schedule
+Category: Graph / Topological Sort / Kahn's Algorithm (BFS)
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+You are given:
+- numCourses → total number of courses
+- prerequisites[i] = [a, b]
+
+This means:
+To take course 'a', you must first complete 'b'.
+
+Return:
+true → if you can finish all courses  
+false → if it's impossible (cycle exists)
+
+Core Idea:
+This is a **cycle detection in Directed Graph**.
+
+If graph has cycle → impossible to complete all courses.
+
+We use **Topological Sort (Kahn's Algorithm)**:
+- Process nodes with indegree = 0
+- Remove them and reduce indegree of neighbors
+- Count processed nodes
+
+If processed nodes == total nodes → NO cycle  
+Else → cycle exists
+
+Approach:
+1. Build adjacency list
+2. Compute indegree of each node
+3. Push all nodes with indegree 0 into queue
+4. BFS:
+     remove node
+     decrease neighbor indegree
+     push if becomes 0
+5. Check count
+
+Time Complexity:
+    O(V + E)
+
+Space Complexity:
+    O(V + E)
+
+Why Important?
+⭐ Classic DAG problem  
+⭐ Used in scheduling problems  
+⭐ Foundation for many graph problems  
+
+============================================================
+*/
+
+#include <vector>
+#include <queue>
+using namespace std;
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+
+        vector<vector<int>> adj(numCourses);
+        vector<int> indegree(numCourses, 0);
+
+        // Build graph
+        for (auto &p : prerequisites) {
+            int a = p[0], b = p[1];
+            adj[b].push_back(a);
+            indegree[a]++;
+        }
+
+        queue<int> q;
+
+        // Push nodes with indegree 0
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0)
+                q.push(i);
+        }
+
+        int count = 0;
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            count++;
+
+            for (int neighbor : adj[node]) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0)
+                    q.push(neighbor);
+            }
+        }
+
+        return count == numCourses;
+    }
+};
