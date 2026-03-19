@@ -1,0 +1,167 @@
+/*
+============================================================
+Problem: Sort Items by Groups Respecting Dependencies
+Category: Graph / Topological Sort / DAG / Hard
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+You are given:
+- n items
+- m groups
+- group[i] → group of item i (can be -1)
+- beforeItems[i] → items that must come before i
+
+Return:
+A valid ordering of items such that:
+1. Dependencies are respected
+2. Items of same group appear together
+
+If impossible → return empty array
+
+Core Idea:
+We need to perform **Topological Sort on TWO levels**:
+
+1️⃣ Group level (macro order)
+2️⃣ Item level (within groups)
+
+------------------------------------------------------------
+Key Observations:
+
+- Dependencies exist between items
+- But items belong to groups
+- So we need:
+   ✔ group order
+   ✔ item order
+
+------------------------------------------------------------
+Approach:
+
+Step 1:
+Assign unique group IDs to items with group = -1
+
+Step 2:
+Build TWO graphs:
+1. Item Graph → dependencies between items
+2. Group Graph → dependencies between groups
+
+Step 3:
+Topological sort on GROUP graph
+
+Step 4:
+Topological sort on ITEM graph
+
+Step 5:
+Group items based on group ID
+
+Step 6:
+Combine results using group order
+
+------------------------------------------------------------
+If any topo sort fails → cycle → return {}
+
+------------------------------------------------------------
+
+Time Complexity:
+    O(V + E)
+
+Space Complexity:
+    O(V + E)
+
+Why Important?
+⭐ Very popular HARD graph problem  
+⭐ Combines multiple topological sorts  
+⭐ Tests deep understanding of DAG  
+
+============================================================
+*/
+
+#include <vector>
+#include <queue>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+
+    // Kahn's Topological Sort
+    vector<int> topoSort(vector<vector<int>>& graph, vector<int>& indegree) {
+
+        queue<int> q;
+        vector<int> order;
+
+        for (int i = 0; i < indegree.size(); i++) {
+            if (indegree[i] == 0)
+                q.push(i);
+        }
+
+        while (!q.empty()) {
+            int node = q.front(); q.pop();
+            order.push_back(node);
+
+            for (int nei : graph[node]) {
+                if (--indegree[nei] == 0)
+                    q.push(nei);
+            }
+        }
+
+        return order;
+    }
+
+    vector<int> sortItems(int n, int m,
+                          vector<int>& group,
+                          vector<vector<int>>& beforeItems) {
+
+        // Assign new groups to -1
+        for (int i = 0; i < n; i++) {
+            if (group[i] == -1)
+                group[i] = m++;
+        }
+
+        // Item graph
+        vector<vector<int>> itemGraph(n);
+        vector<int> itemIndegree(n, 0);
+
+        // Group graph
+        vector<vector<int>> groupGraph(m);
+        vector<int> groupIndegree(m, 0);
+
+        // Build graphs
+        for (int i = 0; i < n; i++) {
+            for (int prev : beforeItems[i]) {
+
+                itemGraph[prev].push_back(i);
+                itemIndegree[i]++;
+
+                if (group[i] != group[prev]) {
+                    groupGraph[group[prev]].push_back(group[i]);
+                    groupIndegree[group[i]]++;
+                }
+            }
+        }
+
+        // Topo sort groups
+        vector<int> groupOrder = topoSort(groupGraph, groupIndegree);
+        if (groupOrder.size() != m) return {};
+
+        // Topo sort items
+        vector<int> itemOrder = topoSort(itemGraph, itemIndegree);
+        if (itemOrder.size() != n) return {};
+
+        // Group items
+        unordered_map<int, vector<int>> groupedItems;
+        for (int item : itemOrder) {
+            groupedItems[group[item]].push_back(item);
+        }
+
+        // Build result
+        vector<int> result;
+        for (int g : groupOrder) {
+            for (int item : groupedItems[g]) {
+                result.push_back(item);
+            }
+        }
+
+        return result;
+    }
+};
