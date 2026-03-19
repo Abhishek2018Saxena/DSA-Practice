@@ -1,0 +1,104 @@
+/*
+============================================================
+Problem: Find Eventual Safe States
+Category: Graph / DFS / Cycle Detection / Topological Concept
+Platform: LeetCode
+Language: C++
+
+Problem Statement:
+You are given a directed graph.
+
+A node is called **safe** if:
+Starting from that node, you will always
+end up in a terminal node (node with no outgoing edges)
+and never enter a cycle.
+
+Return all safe nodes in sorted order.
+
+Example:
+graph = [[1,2],[2,3],[5],[0],[5],[],[]]
+
+Output:
+[2,4,5,6]
+
+------------------------------------------------------------
+
+Core Idea:
+This is **Cycle Detection in Directed Graph**.
+
+We use DFS with 3 states:
+0 → Not visited  
+1 → Visiting (currently in recursion stack)  
+2 → Safe (no cycle from this node)
+
+------------------------------------------------------------
+
+DFS Logic:
+- If we revisit a node in state 1 → cycle found ❌
+- If node is state 2 → already safe ✅
+- If all neighbors are safe → mark node safe
+
+------------------------------------------------------------
+
+Approach:
+1. Use state array:
+      0 = unvisited
+      1 = visiting
+      2 = safe
+
+2. Run DFS on every node
+
+3. If DFS returns true → safe node
+
+------------------------------------------------------------
+
+Time Complexity:
+    O(V + E)
+
+Space Complexity:
+    O(V)
+
+Why Important?
+⭐ Classic cycle detection  
+⭐ DFS recursion stack usage  
+⭐ Alternate solution uses Topological Sort (reverse graph)  
+
+============================================================
+*/
+
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+
+    bool dfs(int node, vector<vector<int>>& graph, vector<int>& state) {
+
+        if (state[node] != 0)
+            return state[node] == 2;
+
+        state[node] = 1; // visiting
+
+        for (int nei : graph[node]) {
+            if (!dfs(nei, graph, state))
+                return false;
+        }
+
+        state[node] = 2; // safe
+        return true;
+    }
+
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+
+        int n = graph.size();
+        vector<int> state(n, 0);
+        vector<int> result;
+
+        for (int i = 0; i < n; i++) {
+            if (dfs(i, graph, state))
+                result.push_back(i);
+        }
+
+        return result;
+    }
+};
