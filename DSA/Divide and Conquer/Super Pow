@@ -1,0 +1,55 @@
+/*
+========================================
+Problem: Super Pow
+Platform: LeetCode
+Language: C++
+Approach: Divide and Conquer + Modular Exponentiation
+Time Complexity: O(n * log k)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input: a = 2, b = [1,0]
+Output: 1024
+
+Explanation:
+b represents 10 → 2^10 = 1024 % 1337 = 1024
+*/
+
+class Solution {
+public:
+    int mod = 1337;
+
+    // Fast exponentiation (a^k % mod)
+    int power(int a, int k) {
+        int result = 1;
+        a %= mod;
+
+        while (k > 0) {
+            if (k % 2 == 1)
+                result = (result * a) % mod;
+
+            a = (a * a) % mod;
+            k /= 2;
+        }
+        return result;
+    }
+
+    int superPow(int a, vector<int>& b) {
+
+        // Base case
+        if (b.empty())
+            return 1;
+
+        // Take last digit
+        int last = b.back();
+        b.pop_back();
+
+        // Divide and Conquer:
+        // a^(rest * 10 + last) = (a^rest)^10 * a^last
+        int part1 = power(superPow(a, b), 10);
+        int part2 = power(a, last);
+
+        return (part1 * part2) % mod;
+    }
+};
