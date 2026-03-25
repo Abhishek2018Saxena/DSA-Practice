@@ -1,0 +1,61 @@
+/*
+========================================
+Problem: Special Binary String
+Platform: LeetCode
+Language: C++
+Approach: Divide and Conquer + Recursion + Greedy Sorting
+Time Complexity: O(n log n)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input: s = "11011000"
+Output: "11100100"
+
+Explanation:
+We split into special substrings → ["10", "1100"]
+Recursively process and sort in descending order
+Final result after rearrangement = "11100100"
+*/
+
+class Solution {
+public:
+    string makeLargestSpecial(string s) {
+
+        vector<string> res;
+        int count = 0, start = 0;
+
+        for (int i = 0; i < s.size(); i++) {
+
+            // Count balance (1 -> +1, 0 -> -1)
+            if (s[i] == '1')
+                count++;
+            else
+                count--;
+
+            // Found a special substring
+            if (count == 0) {
+
+                // Remove outer '1' and '0'
+                string inner = s.substr(start + 1, i - start - 1);
+
+                // Recursively process inner part
+                string temp = "1" + makeLargestSpecial(inner) + "0";
+
+                res.push_back(temp);
+                start = i + 1;
+            }
+        }
+
+        // Sort substrings in descending order
+        sort(res.begin(), res.end(), greater<string>());
+
+        // Concatenate all parts
+        string result = "";
+        for (auto &str : res) {
+            result += str;
+        }
+
+        return result;
+    }
+};
