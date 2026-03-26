@@ -1,0 +1,117 @@
+/*
+========================================
+Problem: Cut Off Trees for Golf Event
+Platform: LeetCode
+Language: C++
+Approach: BFS + Sorting (Greedy)
+Time Complexity: O((m*n)^2)
+Space Complexity: O(m*n)
+========================================
+
+Example:
+Input: forest = [
+  [1,2,3],
+  [0,0,4],
+  [7,6,5]
+]
+
+Output: 6
+
+Explanation:
+Cut trees in increasing order: 2 → 3 → 4 → 5 → 6 → 7
+Use BFS to find shortest path between each tree.
+*/
+
+class Solution {
+public:
+
+    // BFS to find shortest path from (sr, sc) to (tr, tc)
+    int bfs(vector<vector<int>>& forest, int sr, int sc, int tr, int tc) {
+
+        if (sr == tr && sc == tc)
+            return 0;
+
+        int m = forest.size(), n = forest[0].size();
+
+        queue<pair<int,int>> q;
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+
+        q.push({sr, sc});
+        visited[sr][sc] = true;
+
+        int steps = 0;
+
+        // Directions: right, down, left, up
+        vector<int> dir = {0, 1, 0, -1, 0};
+
+        while (!q.empty()) {
+
+            int size = q.size();
+            steps++;
+
+            for (int i = 0; i < size; i++) {
+
+                auto [r, c] = q.front();
+                q.pop();
+
+                for (int d = 0; d < 4; d++) {
+
+                    int nr = r + dir[d];
+                    int nc = c + dir[d + 1];
+
+                    if (nr >= 0 && nc >= 0 && nr < m && nc < n &&
+                        !visited[nr][nc] && forest[nr][nc] != 0) {
+
+                        // Reached target tree
+                        if (nr == tr && nc == tc)
+                            return steps;
+
+                        visited[nr][nc] = true;
+                        q.push({nr, nc});
+                    }
+                }
+            }
+        }
+
+        return -1; // unreachable
+    }
+
+    int cutOffTree(vector<vector<int>>& forest) {
+
+        int m = forest.size(), n = forest[0].size();
+
+        vector<tuple<int,int,int>> trees;
+
+        // Step 1: Collect all trees (height, row, col)
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (forest[i][j] > 1) {
+                    trees.push_back({forest[i][j], i, j});
+                }
+            }
+        }
+
+        // Step 2: Sort trees by height
+        sort(trees.begin(), trees.end());
+
+        int sr = 0, sc = 0;
+        int totalSteps = 0;
+
+        // Step 3: Visit each tree in sorted order
+        for (auto& [h, tr, tc] : trees) {
+
+            int steps = bfs(forest, sr, sc, tr, tc);
+
+            if (steps == -1)
+                return -1;
+
+            totalSteps += steps;
+
+            // Move starting position to current tree
+            sr = tr;
+            sc = tc;
+        }
+
+        return totalSteps;
+    }
+};
