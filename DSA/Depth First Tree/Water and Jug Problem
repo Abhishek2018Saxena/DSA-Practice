@@ -1,0 +1,40 @@
+/*
+========================================
+Problem: Water and Jug Problem
+Platform: LeetCode
+Language: C++
+Approach: Mathematical (GCD - Bézout’s Theorem)
+Time Complexity: O(log(min(x, y)))
+Space Complexity: O(1)
+========================================
+
+Example:
+Input: x = 3, y = 5, target = 4
+Output: true
+
+Explanation:
+We can measure 4 liters using 3L and 5L jugs.
+*/
+
+class Solution {
+public:
+
+    // Euclidean Algorithm to find GCD
+    int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    bool canMeasureWater(int x, int y, int target) {
+
+        // If target exceeds total capacity
+        if (target > x + y)
+            return false;
+
+        // If target is 0
+        if (target == 0)
+            return true;
+
+        // Check if target is divisible by gcd(x, y)
+        return target % gcd(x, y) == 0;
+    }
+};
