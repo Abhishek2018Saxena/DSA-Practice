@@ -1,0 +1,74 @@
+/*
+========================================
+Problem: Concatenated Words
+Platform: LeetCode
+Language: C++
+Approach: DFS + Memoization (Backtracking with HashSet)
+Time Complexity: O(n * k^2)
+Space Complexity: O(n * k)
+========================================
+
+Example:
+Input: words = ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
+
+Output: ["catsdogcats","dogcatsdog","ratcatdogcat"]
+
+Explanation:
+Each output word is formed by concatenating at least two smaller words.
+*/
+
+class Solution {
+public:
+    unordered_set<string> st;
+    unordered_map<string, bool> memo;
+
+    // Check if a word can be formed using smaller words
+    bool canForm(string word) {
+
+        if (memo.count(word))
+            return memo[word];
+
+        // Try all splits
+        for (int i = 1; i < word.size(); i++) {
+
+            string left = word.substr(0, i);
+            string right = word.substr(i);
+
+            // If left exists
+            if (st.count(left)) {
+
+                // If right exists OR can be formed recursively
+                if (st.count(right) || canForm(right)) {
+                    return memo[word] = true;
+                }
+            }
+        }
+
+        return memo[word] = false;
+    }
+
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+
+        // Store all words in set
+        for (auto &w : words) {
+            st.insert(w);
+        }
+
+        vector<string> result;
+
+        for (auto &word : words) {
+
+            // Remove current word to avoid self-use
+            st.erase(word);
+
+            if (canForm(word)) {
+                result.push_back(word);
+            }
+
+            // Add back after check
+            st.insert(word);
+        }
+
+        return result;
+    }
+};
