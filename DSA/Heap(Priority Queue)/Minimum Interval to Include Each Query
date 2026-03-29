@@ -1,0 +1,77 @@
+/*
+========================================
+Problem: Minimum Interval to Include Each Query
+Platform: LeetCode
+Language: C++
+Approach: Sorting + Min Heap (Priority Queue)
+Time Complexity: O((n + q) log n)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input: intervals = [[1,4],[2,4],[3,6],[4,4]]
+       queries = [2,3,4,5]
+
+Output: [3,3,1,4]
+
+Explanation:
+For each query, find the smallest interval covering it.
+*/
+
+class Solution {
+public:
+    vector<int> minInterval(vector<vector<int>>& intervals, vector<int>& queries) {
+
+        // Step 1: Sort intervals by start
+        sort(intervals.begin(), intervals.end());
+
+        int n = queries.size();
+
+        // Store queries with original index
+        vector<pair<int, int>> q;
+        for (int i = 0; i < n; i++) {
+            q.push_back({queries[i], i});
+        }
+
+        // Sort queries
+        sort(q.begin(), q.end());
+
+        vector<int> ans(n, -1);
+
+        // Min heap: {interval size, end}
+        priority_queue<
+            pair<int, int>,
+            vector<pair<int, int>>,
+            greater<pair<int, int>>
+        > pq;
+
+        int i = 0;
+
+        // Process each query
+        for (auto& [query, idx] : q) {
+
+            // Step 2: Add intervals whose start <= query
+            while (i < intervals.size() && intervals[i][0] <= query) {
+
+                int l = intervals[i][0];
+                int r = intervals[i][1];
+                int size = r - l + 1;
+
+                pq.push({size, r});
+                i++;
+            }
+
+            // Step 3: Remove intervals that can't cover query
+            while (!pq.empty() && pq.top().second < query) {
+                pq.pop();
+            }
+
+            // Step 4: Get smallest valid interval
+            if (!pq.empty()) {
+                ans[idx] = pq.top().first;
+            }
+        }
+
+        return ans;
+    }
+};
