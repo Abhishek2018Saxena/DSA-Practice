@@ -1,0 +1,62 @@
+/*
+========================================
+Problem: Maximum Number of Events That Can Be Attended
+Platform: LeetCode
+Language: C++
+Approach: Greedy + Min Heap (Priority Queue)
+Time Complexity: O(n log n)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input: events = [[1,2],[2,3],[3,4]]
+
+Output: 3
+
+Explanation:
+Attend one event per day:
+Day 1 → [1,2]
+Day 2 → [2,3]
+Day 3 → [3,4]
+*/
+
+class Solution {
+public:
+    int maxEvents(vector<vector<int>>& events) {
+
+        // Step 1: Sort events by start day
+        sort(events.begin(), events.end());
+
+        // Min heap to store end days
+        priority_queue<int, vector<int>, greater<int>> pq;
+
+        int day = 0, i = 0, n = events.size(), count = 0;
+
+        while (i < n || !pq.empty()) {
+
+            // If no active events, jump to next start day
+            if (pq.empty())
+                day = events[i][0];
+
+            // Add all events starting on this day
+            while (i < n && events[i][0] == day) {
+                pq.push(events[i][1]);
+                i++;
+            }
+
+            // Remove expired events
+            while (!pq.empty() && pq.top() < day) {
+                pq.pop();
+            }
+
+            // Attend event with earliest end day
+            if (!pq.empty()) {
+                pq.pop();
+                count++;
+                day++;
+            }
+        }
+
+        return count;
+    }
+};
