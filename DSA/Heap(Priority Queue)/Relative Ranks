@@ -1,0 +1,55 @@
+/*
+========================================
+Problem: Relative Ranks
+Platform: LeetCode
+Language: C++
+Approach: Sorting (Heap / Priority Queue alternative)
+Time Complexity: O(n log n)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input: score = [5,4,3,2,1]
+
+Output: ["Gold Medal","Silver Medal","Bronze Medal","4","5"]
+
+Explanation:
+Highest score gets Gold Medal, second gets Silver, third gets Bronze,
+rest get their rank numbers.
+*/
+
+class Solution {
+public:
+    vector<string> findRelativeRanks(vector<int>& score) {
+
+        int n = score.size();
+
+        // Step 1: Store score with original index
+        vector<pair<int, int>> v;
+        for (int i = 0; i < n; i++) {
+            v.push_back({score[i], i});
+        }
+
+        // Step 2: Sort in descending order (highest first)
+        sort(v.rbegin(), v.rend());
+
+        // Step 3: Prepare result array
+        vector<string> ans(n);
+
+        for (int i = 0; i < n; i++) {
+
+            int idx = v[i].second;
+
+            if (i == 0)
+                ans[idx] = "Gold Medal";
+            else if (i == 1)
+                ans[idx] = "Silver Medal";
+            else if (i == 2)
+                ans[idx] = "Bronze Medal";
+            else
+                ans[idx] = to_string(i + 1);
+        }
+
+        return ans;
+    }
+};
