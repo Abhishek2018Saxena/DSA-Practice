@@ -1,0 +1,49 @@
+/*
+========================================
+Problem: Combine Two Tables
+Platform: LeetCode
+Language: SQL
+Approach: LEFT JOIN
+Time Complexity: O(n)
+Space Complexity: O(1)
+========================================
+
+Example:
+
+Person Table:
++----------+----------+-----------+
+| personId | lastName | firstName |
++----------+----------+-----------+
+| 1        | Wang     | Allen     |
+| 2        | Alice    | Bob       |
++----------+----------+-----------+
+
+Address Table:
++-----------+----------+---------------+------------+
+| addressId | personId | city          | state      |
++-----------+----------+---------------+------------+
+| 1         | 2        | New York City | New York   |
+| 2         | 3        | Leetcode      | California |
++-----------+----------+---------------+------------+
+
+Output:
++-----------+----------+---------------+------------+
+| firstName | lastName | city          | state      |
++-----------+----------+---------------+------------+
+| Allen     | Wang     | NULL          | NULL       |
+| Bob       | Alice    | New York City | New York   |
++-----------+----------+---------------+------------+
+
+Explanation:
+- Use LEFT JOIN to include all records from Person
+- If no matching address → NULL values
+*/
+
+SELECT 
+    p.firstName,
+    p.lastName,
+    a.city,
+    a.state
+FROM Person p
+LEFT JOIN Address a
+ON p.personId = a.personId;
