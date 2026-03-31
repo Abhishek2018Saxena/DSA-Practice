@@ -1,0 +1,77 @@
+/*
+========================================
+Problem: Statistics from a Large Sample
+Platform: LeetCode
+Language: C++
+Approach: Frequency Array + Prefix Counting
+Time Complexity: O(n)
+Space Complexity: O(1)
+========================================
+
+Example:
+Input: count = [0,1,3,4,0,0,...]
+
+Output: [min, max, mean, median, mode]
+
+Explanation:
+We are given frequency of numbers (0–255).
+Compute statistical values without expanding array.
+*/
+
+class Solution {
+public:
+    vector<double> sampleStats(vector<int>& count) {
+
+        int n = count.size();
+
+        double minVal = -1, maxVal = -1;
+        double sum = 0, total = 0;
+        int mode = 0, modeFreq = 0;
+
+        // Step 1: Compute min, max, mean, mode
+        for (int i = 0; i < n; i++) {
+
+            if (count[i] > 0) {
+
+                if (minVal == -1)
+                    minVal = i;
+
+                maxVal = i;
+
+                sum += (double)i * count[i];
+                total += count[i];
+
+                if (count[i] > modeFreq) {
+                    modeFreq = count[i];
+                    mode = i;
+                }
+            }
+        }
+
+        double mean = sum / total;
+
+        // Step 2: Compute median
+        double median = 0;
+
+        int mid1 = (total + 1) / 2;
+        int mid2 = (total + 2) / 2;
+
+        int currCount = 0;
+        int m1 = -1, m2 = -1;
+
+        for (int i = 0; i < n; i++) {
+
+            currCount += count[i];
+
+            if (m1 == -1 && currCount >= mid1)
+                m1 = i;
+
+            if (m2 == -1 && currCount >= mid2)
+                m2 = i;
+        }
+
+        median = (m1 + m2) / 2.0;
+
+        return {minVal, maxVal, mean, median, (double)mode};
+    }
+};
