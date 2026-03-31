@@ -1,0 +1,35 @@
+/*
+========================================
+Problem: Airplane Seat Assignment Probability
+Platform: LeetCode
+Language: C++
+Approach: Mathematical Observation (Probability)
+Time Complexity: O(1)
+Space Complexity: O(1)
+========================================
+
+Example:
+Input: n = 2
+Output: 0.5
+
+Input: n = 1
+Output: 1.0
+
+Explanation:
+First passenger picks a random seat.
+Every next passenger takes their seat if available,
+otherwise picks randomly.
+*/
+
+class Solution {
+public:
+    double nthPersonGetsNthSeat(int n) {
+
+        // Base case
+        if (n == 1)
+            return 1.0;
+
+        // Mathematical result
+        return 0.5;
+    }
+};
