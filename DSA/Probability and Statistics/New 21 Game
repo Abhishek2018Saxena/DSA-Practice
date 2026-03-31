@@ -1,0 +1,56 @@
+/*
+========================================
+Problem: New 21 Game
+Platform: LeetCode
+Language: C++
+Approach: Dynamic Programming + Sliding Window (Probability)
+Time Complexity: O(n)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input: n = 6, k = 1, maxPts = 10
+Output: 0.6
+
+Explanation:
+Alice stops drawing when points >= k.
+We calculate probability that total points ≤ n.
+*/
+
+class Solution {
+public:
+    double new21Game(int n, int k, int maxPts) {
+
+        // Edge cases
+        if (k == 0 || n >= k + maxPts)
+            return 1.0;
+
+        vector<double> dp(n + 1, 0.0);
+        dp[0] = 1.0;
+
+        double windowSum = 1.0; // sum of last maxPts dp values
+        double result = 0.0;
+
+        for (int i = 1; i <= n; i++) {
+
+            // Probability of reaching i
+            dp[i] = windowSum / maxPts;
+
+            // If still drawing
+            if (i < k) {
+                windowSum += dp[i];
+            }
+            // If stopping condition reached
+            else {
+                result += dp[i];
+            }
+
+            // Remove out-of-window value
+            if (i - maxPts >= 0) {
+                windowSum -= dp[i - maxPts];
+            }
+        }
+
+        return result;
+    }
+};
