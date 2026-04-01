@@ -1,0 +1,64 @@
+/*
+========================================
+Problem: Letter Combinations of a Phone Number
+Platform: LeetCode
+Language: C++
+Approach: Backtracking (DFS)
+Time Complexity: O(4^n)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input: digits = "23"
+
+Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+
+Explanation:
+Each digit maps to multiple letters.
+We generate all possible combinations using recursion.
+*/
+
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+
+        if (digits.empty())
+            return {};
+
+        vector<string> mapping = {
+            "", "", "abc", "def", "ghi", "jkl",
+            "mno", "pqrs", "tuv", "wxyz"
+        };
+
+        vector<string> result;
+        string current = "";
+
+        backtrack(digits, 0, mapping, current, result);
+
+        return result;
+    }
+
+    void backtrack(string &digits, int index,
+                   vector<string> &mapping,
+                   string &current,
+                   vector<string> &result) {
+
+        // Base case
+        if (index == digits.size()) {
+            result.push_back(current);
+            return;
+        }
+
+        string letters = mapping[digits[index] - '0'];
+
+        for (char ch : letters) {
+
+            current.push_back(ch);   // choose
+
+            backtrack(digits, index + 1,
+                      mapping, current, result); // explore
+
+            current.pop_back();      // un-choose (backtrack)
+        }
+    }
+};
