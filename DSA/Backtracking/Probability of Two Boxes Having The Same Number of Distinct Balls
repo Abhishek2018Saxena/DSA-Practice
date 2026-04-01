@@ -1,0 +1,89 @@
+/*
+========================================
+Problem: Probability of Two Boxes Having The Same Number of Distinct Balls
+Platform: LeetCode
+Language: C++
+Approach: Backtracking + Combinatorics (nCr)
+Time Complexity: Exponential (backtracking over distributions)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input: balls = [1,1]
+Output: 1.0
+
+Explanation:
+Distribute balls into two boxes such that:
+1. Each box has equal number of balls
+2. Both boxes have equal distinct colors
+*/
+
+class Solution {
+public:
+    vector<double> fact;
+    int total;
+
+    // Compute nCr using factorial
+    double comb(int n, int r) {
+        return fact[n] / (fact[r] * fact[n - r]);
+    }
+
+    double dfs(vector<int>& balls,
+               int idx,
+               int count1, int count2,
+               int distinct1, int distinct2) {
+
+        // Prune invalid states
+        if (count1 > total / 2 || count2 > total / 2)
+            return 0;
+
+        // Base case: all colors processed
+        if (idx == balls.size()) {
+
+            if (count1 == count2 && distinct1 == distinct2)
+                return 1;
+
+            return 0;
+        }
+
+        double ways = 0;
+
+        // Try all splits for current color
+        for (int i = 0; i <= balls[idx]; i++) {
+
+            int j = balls[idx] - i;
+
+            int newDistinct1 = distinct1 + (i > 0);
+            int newDistinct2 = distinct2 + (j > 0);
+
+            ways += comb(balls[idx], i) *
+                    dfs(balls,
+                        idx + 1,
+                        count1 + i, count2 + j,
+                        newDistinct1, newDistinct2);
+        }
+
+        return ways;
+    }
+
+    double getProbability(vector<int>& balls) {
+
+        total = 0;
+        for (int b : balls)
+            total += b;
+
+        // Precompute factorials
+        fact.resize(total + 1, 1);
+        for (int i = 1; i <= total; i++) {
+            fact[i] = fact[i - 1] * i;
+        }
+
+        // Favorable cases
+        double favorable = dfs(balls, 0, 0, 0, 0, 0);
+
+        // Total ways to split into equal halves
+        double totalWays = comb(total, total / 2);
+
+        return favorable / totalWays;
+    }
+};
