@@ -1,0 +1,58 @@
+/*
+========================================
+Problem: Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+Platform: LeetCode
+Language: C++
+Approach: Sliding Window + Monotonic Deques
+Time Complexity: O(n)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input: nums = [8,2,4,7], limit = 4
+Output: 2
+
+Explanation:
+Longest valid subarray is [2,4]
+(max - min = 4 - 2 = 2 ≤ limit)
+*/
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums, int limit) {
+
+        deque<int> maxD, minD;
+        int left = 0, ans = 0;
+
+        for (int right = 0; right < nums.size(); right++) {
+
+            // Maintain decreasing deque for max
+            while (!maxD.empty() && nums[right] > maxD.back()) {
+                maxD.pop_back();
+            }
+            maxD.push_back(nums[right]);
+
+            // Maintain increasing deque for min
+            while (!minD.empty() && nums[right] < minD.back()) {
+                minD.pop_back();
+            }
+            minD.push_back(nums[right]);
+
+            // Shrink window if condition breaks
+            while (maxD.front() - minD.front() > limit) {
+
+                if (nums[left] == maxD.front())
+                    maxD.pop_front();
+
+                if (nums[left] == minD.front())
+                    minD.pop_front();
+
+                left++;
+            }
+
+            ans = max(ans, right - left + 1);
+        }
+
+        return ans;
+    }
+};
