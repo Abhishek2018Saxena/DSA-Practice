@@ -1,0 +1,65 @@
+/*
+========================================
+Problem: Max Sum of Rectangle No Larger Than K
+Platform: LeetCode
+Language: C++
+Approach: 2D Prefix Sum + Ordered Set (Set + Binary Search)
+Time Complexity: O(n^2 * m * log m)
+Space Complexity: O(m)
+========================================
+
+Example:
+Input:
+matrix = [[1,0,1],[0,-2,3]], k = 2
+
+Output: 2
+
+Explanation:
+Rectangle [[0,1],[-2,3]] has sum = 2 (≤ k)
+*/
+
+class Solution {
+public:
+    int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
+
+        int m = matrix.size(), n = matrix[0].size();
+        int ans = INT_MIN;
+
+        // Fix left column
+        for (int left = 0; left < n; left++) {
+
+            vector<int> rowSum(m, 0);
+
+            // Expand right column
+            for (int right = left; right < n; right++) {
+
+                // Step 1: Build row-wise cumulative sums
+                for (int i = 0; i < m; i++) {
+                    rowSum[i] += matrix[i][right];
+                }
+
+                // Step 2: Find max subarray sum ≤ k
+                set<int> prefixSet;
+                prefixSet.insert(0);
+
+                int currSum = 0;
+
+                for (int sum : rowSum) {
+
+                    currSum += sum;
+
+                    // Find smallest prefix >= currSum - k
+                    auto it = prefixSet.lower_bound(currSum - k);
+
+                    if (it != prefixSet.end()) {
+                        ans = max(ans, currSum - *it);
+                    }
+
+                    prefixSet.insert(currSum);
+                }
+            }
+        }
+
+        return ans;
+    }
+};
