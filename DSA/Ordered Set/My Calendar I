@@ -1,0 +1,45 @@
+/*
+========================================
+Problem: My Calendar I
+Platform: LeetCode
+Language: C++
+Approach: Brute Force (Interval Overlap Check)
+Time Complexity: O(n) per booking
+Space Complexity: O(n)
+========================================
+
+Example:
+Input:
+book(10, 20) → true
+book(15, 25) → false
+book(20, 30) → true
+
+Explanation:
+[10,20] and [15,25] overlap → reject
+[10,20] and [20,30] do not overlap → accept
+*/
+
+class MyCalendar {
+public:
+    vector<pair<int,int>> events;
+
+    MyCalendar() {
+    }
+    
+    bool book(int startTime, int endTime) {
+
+        // Check overlap with all existing events
+        for (auto &e : events) {
+
+            // Overlap condition
+            if (startTime < e.second && endTime > e.first) {
+                return false;
+            }
+        }
+
+        // No conflict → add event
+        events.push_back({startTime, endTime});
+
+        return true;
+    }
+};
