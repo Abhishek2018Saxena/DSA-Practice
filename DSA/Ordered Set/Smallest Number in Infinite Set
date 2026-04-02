@@ -1,0 +1,64 @@
+/*
+========================================
+Problem: Smallest Number in Infinite Set
+Platform: LeetCode
+Language: C++
+Approach: Min Heap + Hash Set
+Time Complexity: O(log n) per operation
+Space Complexity: O(n)
+========================================
+
+Example:
+Input:
+popSmallest() → 1
+popSmallest() → 2
+addBack(1)
+popSmallest() → 1
+
+Explanation:
+Maintain smallest available number efficiently.
+*/
+
+class SmallestInfiniteSet {
+public:
+    int current;
+
+    // Min heap to store added-back numbers
+    priority_queue<int, vector<int>, greater<int>> pq;
+
+    // Set to avoid duplicates in heap
+    unordered_set<int> st;
+
+    SmallestInfiniteSet() {
+        current = 1;
+    }
+    
+    int popSmallest() {
+
+        // If heap has smaller values, return them first
+        if (!pq.empty()) {
+
+            int val = pq.top();
+            pq.pop();
+
+            st.erase(val);
+
+            return val;
+        }
+
+        // Otherwise return next natural number
+        return current++;
+    }
+    
+    void addBack(int num) {
+
+        // Only add if:
+        // 1. It was already removed (num < current)
+        // 2. Not already present in heap
+        if (num < current && st.find(num) == st.end()) {
+
+            pq.push(num);
+            st.insert(num);
+        }
+    }
+};
