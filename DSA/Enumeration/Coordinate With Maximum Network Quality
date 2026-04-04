@@ -1,0 +1,68 @@
+/*
+========================================
+Problem: Coordinate With Maximum Network Quality
+Platform: LeetCode
+Language: C++
+Approach: Enumeration (Brute Force on Grid)
+Time Complexity: O((X+R)*(Y+R)*n)
+Space Complexity: O(1)
+========================================
+
+Example:
+Input:
+towers = [[1,2,5],[2,1,7],[3,1,9]], radius = 2
+Output: [2,1]
+
+Explanation:
+Coordinate (2,1) gives maximum total signal quality.
+*/
+
+class Solution {
+public:
+    vector<int> bestCoordinate(vector<vector<int>>& towers, int radius) {
+
+        int maxX = 0, maxY = 0;
+
+        // Step 1: Find grid bounds
+        for (auto &t : towers) {
+            maxX = max(maxX, t[0]);
+            maxY = max(maxY, t[1]);
+        }
+
+        int bestQuality = -1;
+        vector<int> ans = {0, 0};
+
+        // Step 2: Enumerate all possible coordinates
+        for (int x = 0; x <= maxX + radius; x++) {
+            for (int y = 0; y <= maxY + radius; y++) {
+
+                int totalQuality = 0;
+
+                // Step 3: Calculate signal from all towers
+                for (auto &t : towers) {
+
+                    int dx = x - t[0];
+                    int dy = y - t[1];
+
+                    double dist = sqrt(dx * dx + dy * dy);
+
+                    // Only if within radius
+                    if (dist <= radius) {
+                        totalQuality += floor(t[2] / (1 + dist));
+                    }
+                }
+
+                // Step 4: Update best answer
+                if (totalQuality > bestQuality ||
+                   (totalQuality == bestQuality &&
+                    (x < ans[0] || (x == ans[0] && y < ans[1])))) {
+
+                    bestQuality = totalQuality;
+                    ans = {x, y};
+                }
+            }
+        }
+
+        return ans;
+    }
+};
