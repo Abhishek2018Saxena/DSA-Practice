@@ -1,0 +1,55 @@
+/*
+========================================
+Problem: Largest Palindrome Product
+Platform: LeetCode
+Language: C++
+Approach: Enumeration + Palindrome Generation + Math Optimization
+Time Complexity: ~O(10^n * sqrt(palindrome))
+Space Complexity: O(1)
+========================================
+
+Example:
+Input: n = 2
+Output: 987
+
+Explanation:
+Largest palindrome = 9009 = 91 × 99
+Return 9009 % 1337 = 987
+*/
+
+class Solution {
+public:
+    int largestPalindrome(int n) {
+
+        // Special case
+        if (n == 1) return 9;
+
+        long upper = pow(10, n) - 1;
+        long lower = pow(10, n - 1);
+
+        // Step 1: Generate palindromes (largest first)
+        for (long i = upper; i >= lower; i--) {
+
+            string left = to_string(i);
+            string right = left;
+            reverse(right.begin(), right.end());
+
+            long palindrome = stol(left + right);
+
+            // Step 2: Check if palindrome is product of two n-digit numbers
+            for (long j = upper; j * j >= palindrome; j--) {
+
+                if (palindrome % j == 0) {
+
+                    long other = palindrome / j;
+
+                    if (other >= lower && other <= upper) {
+                        return palindrome % 1337;
+                    }
+                }
+            }
+        }
+
+        return -1; // Not reachable
+    }
+};
