@@ -1,0 +1,51 @@
+/*
+========================================
+Problem: Count Good Triplets
+Platform: LeetCode
+Language: C++
+Approach: Enumeration (Brute Force with Pruning)
+Time Complexity: O(n^3)
+Space Complexity: O(1)
+========================================
+
+Example:
+Input: arr = [3,0,1,1,9,7], a = 7, b = 2, c = 3
+Output: 4
+
+Explanation:
+Valid triplets satisfy:
+|arr[i] - arr[j]| ≤ a
+|arr[j] - arr[k]| ≤ b
+|arr[i] - arr[k]| ≤ c
+*/
+
+class Solution {
+public:
+    int countGoodTriplets(vector<int>& arr, int a, int b, int c) {
+
+        int n = arr.size();
+        int count = 0;
+
+        // Enumerate all triplets (i < j < k)
+        for (int i = 0; i < n; i++) {
+
+            for (int j = i + 1; j < n; j++) {
+
+                // Pruning condition (fail early)
+                if (abs(arr[i] - arr[j]) > a)
+                    continue;
+
+                for (int k = j + 1; k < n; k++) {
+
+                    if (abs(arr[j] - arr[k]) <= b &&
+                        abs(arr[i] - arr[k]) <= c) {
+
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+};
