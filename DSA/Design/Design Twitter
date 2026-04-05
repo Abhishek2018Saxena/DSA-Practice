@@ -1,0 +1,101 @@
+/*
+========================================
+Problem: Design Twitter
+Platform: LeetCode
+Language: C++
+Approach: HashMap + Max Heap (Priority Queue)
+Time Complexity:
+  postTweet → O(1)
+  follow/unfollow → O(1)
+  getNewsFeed → O(n log n) (k log k where k = followees)
+Space Complexity: O(n)
+========================================
+
+Example:
+Input:
+postTweet(1,5)
+getNewsFeed(1)
+
+Output:
+[5]
+
+Explanation:
+User sees their own tweet in feed.
+*/
+
+class Twitter {
+public:
+    int time;
+
+    // follower -> set of followees
+    unordered_map<int, unordered_set<int>> followMap;
+
+    // user -> list of {time, tweetId}
+    unordered_map<int, vector<pair<int,int>>> tweetMap;
+
+    Twitter() {
+        time = 0;
+    }
+    
+    void postTweet(int userId, int tweetId) {
+
+        tweetMap[userId].push_back({time++, tweetId});
+    }
+    
+    vector<int> getNewsFeed(int userId) {
+
+        vector<int> result;
+
+        // max heap → {time, tweetId, userId, index}
+        priority_queue<vector<int>> pq;
+
+        // Step 1: user follows themselves
+        followMap[userId].insert(userId);
+
+        // Step 2: push latest tweet of each followee
+        for (int followee : followMap[userId]) {
+
+            if (tweetMap.count(followee) && !tweetMap[followee].empty()) {
+
+                int idx = tweetMap[followee].size() - 1;
+                auto &tweet = tweetMap[followee][idx];
+
+                pq.push({tweet.first, tweet.second, followee, idx});
+            }
+        }
+
+        // Step 3: extract top 10 recent tweets
+        while (!pq.empty() && result.size() < 10) {
+
+            auto curr = pq.top(); 
+            pq.pop();
+
+            int tweetId = curr[1];
+            int user = curr[2];
+            int idx = curr[3];
+
+            result.push_back(tweetId);
+
+            // Step 4: push next tweet from same user
+            if (idx > 0) {
+                auto &nextTweet = tweetMap[user][idx - 1];
+                pq.push({nextTweet.first, nextTweet.second, user, idx - 1});
+            }
+        }
+
+        return result;
+    }
+    
+    void follow(int followerId, int followeeId) {
+
+        followMap[followerId].insert(followeeId);
+    }
+    
+    void unfollow(int followerId, int followeeId) {
+
+        // Cannot unfollow yourself
+        if (followMap.count(followerId) && followeeId != followerId) {
+            followMap[followerId].erase(followeeId);
+        }
+    }
+};
