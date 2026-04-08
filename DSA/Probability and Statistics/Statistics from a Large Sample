@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Statistics from a Large Sample
+Problem: Statistics From a Large Sample
 Platform: LeetCode
 Language: C++
 Approach: Frequency Array + Prefix Counting
