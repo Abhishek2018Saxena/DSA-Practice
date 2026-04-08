@@ -1,9 +1,9 @@
 /*
-========================================
+======================================== 
 Problem: Longest Repeating Character Replacement
 Platform: LeetCode
 Language: C++
-Approach: Sliding Window + Max Frequency Tracking
+Approach: Sliding Window + Max Frequency Tracking 
 Time Complexity: O(n)
 Space Complexity: O(1)
 ========================================
