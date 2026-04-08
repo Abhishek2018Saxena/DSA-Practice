@@ -1,23 +1,23 @@
 /*
-============================================================
+============================================================ 
 Problem: Sort Integers by The Number of 1 Bits
 Category: Bit Manipulation / Sorting / Custom Comparator
-Platform: LeetCode
-Language: C++
+Platform: LeetCode 
+Language: C++ 
 
 Problem Statement:
 Given an integer array arr,
 sort the integers in ascending order by the number of 1's
-in their binary representation.
+in their binary representation. 
 
 Rules:
-1. If two numbers have same number of set bits → smaller number comes first.
+1. If two numbers have same number of set bits → smaller number comes first. 
 
 Example:
-Input:
-arr = [0,1,2,3,4,5,6,7,8]
+Input: 
+arr = [0,1,2,3,4,5,6,7,8] 
 
-Output:
+Output: 
 [0,1,2,4,8,3,5,6,7]
 
 Explanation:
