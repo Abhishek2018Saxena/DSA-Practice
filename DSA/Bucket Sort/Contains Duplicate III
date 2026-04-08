@@ -6,18 +6,18 @@ Platform: LeetCode
 Language: C++
 
 Problem Statement:
-Given an integer array nums and two integers indexDiff and valueDiff,
-return true if there exist two indices i and j such that:
+Given an integer array nums and two integers indexDiff and valueDiff, 
+return true if there exist two indices i and j such that: 
 
-1. |i − j| ≤ indexDiff
-2. |nums[i] − nums[j]| ≤ valueDiff
-
+1. |i − j| ≤ indexDiff 
+2. |nums[i] − nums[j]| ≤ valueDiff 
+ 
 Otherwise return false.
 
-Example:
-Input:
+Example: 
+Input: 
 nums = [1,2,3,1], indexDiff = 3, valueDiff = 0
-
+ 
 Output:
 true
 
