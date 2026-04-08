@@ -1,11 +1,11 @@
 /*
 ========================================
 Problem: Median of Two Sorted Arrays
-Platform: LeetCode
+Platform: LeetCode 
 Language: C++
 Approach: Binary Search on Partition
 Time Complexity: O(log(min(m, n)))
-Space Complexity: O(1)
+Space Complexity: O(1) 
 ========================================
 
 Example:
