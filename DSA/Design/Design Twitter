@@ -3,11 +3,11 @@
 Problem: Design Twitter
 Platform: LeetCode
 Language: C++
-Approach: HashMap + Max Heap (Priority Queue)
-Time Complexity:
+Approach: HashMap + Max Heap (Priority Queue) 
+Time Complexity: 
   postTweet → O(1)
   follow/unfollow → O(1)
-  getNewsFeed → O(n log n) (k log k where k = followees)
+  getNewsFeed → O(n log n) (k log k where k = followees) 
 Space Complexity: O(n)
 ========================================
 
