@@ -3,7 +3,7 @@
 Problem: Remove Nth Node From End of List
 Platform: LeetCode
 Language: C++
-Approach: Two Pointers (Fast & Slow)
+Approach: Two Pointers (Fast & Slow) 
 Time Complexity: O(n)
 Space Complexity: O(1)
 ========================================
