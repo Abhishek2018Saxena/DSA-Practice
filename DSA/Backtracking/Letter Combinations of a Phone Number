@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Letter Combinations of a Phone Number
+Problem: Letter Combinations of a phone Number
 Platform: LeetCode
 Language: C++
 Approach: Backtracking (DFS)
