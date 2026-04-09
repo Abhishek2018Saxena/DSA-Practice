@@ -1,6 +1,6 @@
 /*
 ============================================================ 
-Problem: Sort Integers by The Number of 1 Bits
+Problem: Sort Integers by The number of 1 Bits
 Category: Bit Manipulation / Sorting / Custom Comparator
 Platform: LeetCode 
 Language: C++ 
