@@ -4,7 +4,7 @@ Problem: Design Browser History
 Category: Doubly Linked List / Design
 Platform: LeetCode
 Language: C++
-Approach: Doubly Linked List Simulation
+Approach: Doubly linked list simulation
 Time Complexity:
     visit   -> O(1)
     back    -> O(steps)
