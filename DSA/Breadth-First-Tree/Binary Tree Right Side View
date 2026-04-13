@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Binary Tree Right Side View
+Problem: Binary tree right side view
 Platform: LeetCode
 Language: C++
 Approach: Breadth First Search (BFS) - Level Order
