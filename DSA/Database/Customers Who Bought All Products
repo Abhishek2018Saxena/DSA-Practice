@@ -38,7 +38,7 @@ Output:
 +-------------+
 
 Explanation:
-Customers 1 and 3 bought ALL products (5 and 6).
+Customers 1 and 3 Bought All Products (5 and 6).
 */
 
 SELECT customer_id
