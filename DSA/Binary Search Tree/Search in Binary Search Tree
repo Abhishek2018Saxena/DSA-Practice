@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Search in Binary Search Tree
+Problem: Search in binary search tree
 Category: Binary Search Tree (BST)
 Platform: LeetCode
 Language: C++
@@ -28,7 +28,7 @@ Space Complexity:
 */
 
  /**
- * Definition for a binary tree node.
+ * Definition For a Binary Tree node.
  * struct TreeNode {
  *     int val;
  *     TreeNode *left;
