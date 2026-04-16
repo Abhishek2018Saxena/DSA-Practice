@@ -1,12 +1,12 @@
 /*
 ============================================================
-Problem: Contains Duplicate III
+Problem: Contains duplicate III
 Category: Sliding Window / Hashing / Bucket Sort Concept
 Platform: LeetCode
 Language: C++
 
 Problem Statement:
-Given an integer array nums and two integers indexDiff and valueDiff, 
+Given an Integer Array Nums and two integers indexDiff and valueDiff, 
 return true if there exist two indices i and j such that: 
 
 1. |i − j| ≤ indexDiff 
