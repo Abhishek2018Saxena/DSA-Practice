@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Minimum Interval to Include Each Query
+Problem: Minimum interval to include each query
 Platform: LeetCode
 Language: C++
 Approach: Sorting + Min Heap (Priority Queue)
