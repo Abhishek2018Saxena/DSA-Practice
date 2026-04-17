@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Maximum Number of Events That Can be Attended
+Problem: Maximum number of events that can be Attended
 Platform: LeetCode
 Language: C++ 
 Approach: Greedy + Min Heap (Priority Queue)
