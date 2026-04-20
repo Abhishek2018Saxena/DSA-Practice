@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Construct Binary Tree from Preorder and Inorder Traversal 
+Problem: Construct binary tree from preorder and inorder traversal 
 Platform: LeetCode
 Language: C++
 Approach: Divide and Conquer + Hash Map 
