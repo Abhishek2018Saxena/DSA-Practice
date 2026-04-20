@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: New 21 Game
+Problem: New 21 game
 Platform: LeetCode
 Language: C++
 Approach: Dynamic Programming + Sliding Window (Probability)
