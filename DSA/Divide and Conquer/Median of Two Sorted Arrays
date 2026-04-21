@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Median of two sorted arrays
+Problem: Median of Two Sorted Arrays
 Platform: LeetCode 
 Language: C++
 Approach: Binary Search on Partition
