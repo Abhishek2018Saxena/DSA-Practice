@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Range Sum Query – Mutable
+Problem: Range sum query – Mutable
 Category: Binary Indexed Tree (Fenwick Tree)
 Platform: LeetCode
 Language: C++
