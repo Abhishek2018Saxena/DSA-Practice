@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Top K Frequent Elements
+Problem: Top K frequent elements
 Category: Hashing / Bucket Sort / Heap Alternative
 Platform: LeetCode
 Language: C++
