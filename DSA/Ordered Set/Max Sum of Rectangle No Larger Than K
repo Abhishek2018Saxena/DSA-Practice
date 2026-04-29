@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Max sum of rectangle No larger than K
+Problem: Max Sum of Rectangle No Larger than K
 Platform: LeetCode
 Language: C++
 Approach: 2D Prefix Sum + Ordered Set (Set + Binary Search)
