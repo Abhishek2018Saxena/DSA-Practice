@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Reverse nodes in K-Group
+Problem: Reverse Nodes In k-group
 Platform: LeetCode
 Language: C++
 Approach: Iterative Group Reversal
