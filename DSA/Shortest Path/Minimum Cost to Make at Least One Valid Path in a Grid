@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Minimum cost to make at least one valid path in a grid
+Problem: Minimum Cost to Make at Least one Valid Path in a grid
 Category: Graph / Shortest Path / 0-1 BFS
 Platform: LeetCode
 Language: C++
