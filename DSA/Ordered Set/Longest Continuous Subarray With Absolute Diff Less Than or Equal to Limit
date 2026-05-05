@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Longest continuous subarray With absolute diff less than or qqual to limit
+Problem: Longest Continuous Subarray With Absolute Diff less than or Equal to Limit
 Platform: LeetCode
 Language: C++
 Approach: Sliding Window + Monotonic Deques
