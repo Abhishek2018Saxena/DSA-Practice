@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Add Two Numbers
+Problem: Add two numbers
 Platform: LeetCode
 Language: C++
 Approach: Linked List + Carry Handling
