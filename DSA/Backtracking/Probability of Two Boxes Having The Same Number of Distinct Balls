@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Probability of two boxes having the same number of distinct balls
+Problem: Probability of Two Boxes having the Same Number of Distinct Balls
 Platform: LeetCode
 Language: C++
 Approach: Backtracking + Combinatorics (nCr)
