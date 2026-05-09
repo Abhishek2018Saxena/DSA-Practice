@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: min stack
+Problem: Min Stack
 Platform: LeetCode
 Language: C++
 Approach: Stack + Track Minimum
