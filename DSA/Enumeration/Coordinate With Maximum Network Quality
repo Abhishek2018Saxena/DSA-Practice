@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Coordinate With Maximum Network Quality
+Problem: Coordinate with maximum network quality
 Platform: LeetCode
 Language: C++
 Approach: Enumeration (Brute Force on Grid)
