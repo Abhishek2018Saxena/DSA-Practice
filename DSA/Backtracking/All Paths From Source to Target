@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: All Paths From Source to Target
+Problem: All paths from source to target
 Platform: LeetCode
 Language: C++
 Approach: DFS + Backtracking (Graph Traversal)
