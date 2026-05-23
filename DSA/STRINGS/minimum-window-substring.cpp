@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Minimum Window Substring
+Problem: Minimum window substring
 Platform: LeetCode
 Language: C++
 Approach: Sliding Window + Frequency Count
