@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Permutation in String
+Problem: Permutation in string
 Platform: LeetCode
 Language: C++
 Approach: Fixed Sliding Window + Frequency Count
