@@ -10,7 +10,7 @@ Approach:
         1. Find the leftmost adjacent pair with minimum sum
         2. Merge the pair into one element
         3. Count the operation
-    - Stop when array becomes non-decreasing
+    - Stop when array becomes non-decreasing 
 
 Time Complexity:
     Worst Case -> O(N^2)
