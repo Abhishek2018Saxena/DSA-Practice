@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Longest Palindromic Substring
+Problem: Longest palindromic substring
 Platform: LeetCode
 Language: C++
 Approach: Expand Around Center
