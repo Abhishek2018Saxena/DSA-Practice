@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Smallest number in infinite set
+Problem: Smallest Number in Infinite Set
 Platform: LeetCode
 Language: C++
 Approach: Min Heap + Hash Set
