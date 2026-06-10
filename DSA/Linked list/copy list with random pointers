@@ -1,6 +1,6 @@
 /*
 ==============================================================
-Problem: Copy List with Random Pointer
+Problem: Copy list with random pointer
 Platform: LeetCode
 Language: C++
 Approach: Interweaving Nodes (O(1) Space)
