@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Flatten a multilevel doubly linked list
+Problem: Flatten a Multilevel Doubly Linked List
 Category: Linked List (Doubly Linked List + Recursion)
 Platform: LeetCode
 Language: C++
