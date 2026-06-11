@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Merge Two Sorted Lists
+Problem: Merge two sorted lists
 Platform: LeetCode
 Language: C++
 Approach: Iterative with Dummy Node
