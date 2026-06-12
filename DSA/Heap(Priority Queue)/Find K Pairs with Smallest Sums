@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Find K Pairs with Smallest Sums
+Problem: Find K pairs with smallest sums
 Platform: LeetCode
 Language: C++
 Approach: Min Heap (Priority Queue)
