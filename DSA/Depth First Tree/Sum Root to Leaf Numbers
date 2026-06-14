@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Sum root to leaf numbers
+Problem: Sum Root to Leaf Numbers
 Platform: LeetCode
 Language: C++
 Approach: Depth First Search (DFS)
