@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Reverse linked list
+Problem: Reverse Linked List
 Platform: LeetCode
 Language: C++
 Approach: Iterative (Three Pointers)
