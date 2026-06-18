@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Design twitter
+Problem: Design Twitter
 Platform: LeetCode
 Language: C++
 Approach: HashMap + Max Heap (Priority Queue) 
