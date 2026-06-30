@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Partition equal subset sum
+Problem: Partition Equal Subset Sum
 Category: Dynamic Programming / 0-1 Knapsack / Subset Sum
 Platform: LeetCode
 Language: C++
