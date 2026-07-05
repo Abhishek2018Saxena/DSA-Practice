@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Implement rand10() using rand7()
+Problem: Implement Rand10() Using Rand7()
 Platform: LeetCode
 Language: C++
 Approach: Rejection sampling (Probability)
