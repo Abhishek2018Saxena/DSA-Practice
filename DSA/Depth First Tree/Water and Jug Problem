@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Water and Jug Problem
+Problem: Water and jug problem
 Platform: LeetCode
 Language: C++
 Approach: Mathematical (GCD - Bézout’s Theorem)
