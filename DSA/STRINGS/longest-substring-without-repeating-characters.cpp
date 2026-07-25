@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Longest Substring Without Repeating Characters
+Problem: Longest substring without repeating characters
 Platform: LeetCode
 Language: C++
 Approach: Sliding Window + Last Seen Index
