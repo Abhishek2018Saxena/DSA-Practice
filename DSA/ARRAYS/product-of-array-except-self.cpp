@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Product of Array Except Self
+Problem: Product of array except self
 Platform: LeetCode
 Language: C++
 Approach: Prefix + Suffix Products
