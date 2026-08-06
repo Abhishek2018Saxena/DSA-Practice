@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Subarrays With K Different Integers
+Problem: Subarrays with K different integers
 Category: Sliding Window / Hashing / Prefix Counting
 Platform: LeetCode
 Language: C++
