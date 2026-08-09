@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Maximum Product Subarray
+Problem: Maximum product subarray
 Platform: LeetCode
 Language: C++
 Approach: Track Max and Min Product
