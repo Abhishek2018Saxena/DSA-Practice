@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Remove Nth node from end of list
+Problem: Remove Nth Node From End of List
 Platform: LeetCode
 Language: C++
 Approach: Two Pointers (Fast & Slow) 
