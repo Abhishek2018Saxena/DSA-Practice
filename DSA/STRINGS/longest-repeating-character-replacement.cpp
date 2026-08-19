@@ -1,6 +1,6 @@
 /*
 ======================================== 
-Problem: Longest repeating character replacement
+Problem: Longest Repeating Character Replacement
 Platform: LeetCode
 Language: C++
 Approach: Sliding Window + Max Frequency Tracking 
