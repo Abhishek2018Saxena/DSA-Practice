@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Customers Who Bought All Products
+Problem: Customers who bought all products
 Platform: LeetCode
 Language: SQL
 Approach: GROUP BY + HAVING + Subquery
