@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Sort Items by Groups Respecting Dependencies
+Problem: Sort items by groups respecting dependencies
 Category: Graph / Topological Sort / DAG / Hard
 Platform: LeetCode
 Language: C++
