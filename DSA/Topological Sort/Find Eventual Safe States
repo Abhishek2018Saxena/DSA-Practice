@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Find eventual safe states
+Problem: Find Eventual Safe States
 Category: Graph / DFS / Cycle Detection / Topological Concept
 Platform: LeetCode
 Language: C++
