@@ -1,6 +1,6 @@
 /*
 ============================================================
-Problem: Count majority subarrays
+Problem: Count Majority Subarrays
 Category: Merge Sort / Prefix Sum / Divide and Conquer
 Platform: LeetCode / Interview Pattern
 Language: C++
