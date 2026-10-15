@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Best time to buy and sell stock
+Problem: Best Time to Buy and Sell Stock
 Platform: LeetCode
 Language: C
 Approach: Single Pass (Optimal)
