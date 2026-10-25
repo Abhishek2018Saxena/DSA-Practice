@@ -1,6 +1,6 @@
 /*
 ========================================
-Problem: Cut off trees for golf event
+Problem: Cut Off Trees for Golf Event
 Platform: LeetCode
 Language: C++
 Approach: BFS + Sorting (Greedy)
